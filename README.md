@@ -19,3 +19,7 @@ Group project for Software-Engineering course (CEN5035)
 - Payment gateway API integration.
 - Location based listing of parking spaces. 
 - Availability of slots for the next 7 days. 
+
+## Tech Stack
+- React + Redux (For FrontEnd)
+- GoLang (for BackEnd)
