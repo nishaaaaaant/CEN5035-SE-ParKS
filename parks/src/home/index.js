@@ -1,43 +1,62 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
+import { useNavigate } from "react-router-dom";
 // import { useSelector, useDispatch } from "react-redux";
 // import { fetchHomePageData } from "./ActionCreators";
 
 // Style imports
-// import { Container, Header, Body, MissionContainer, Footer } from "./styles";
-
-// Lazy loading of components
-// const FilterComponent = lazy(() => import("../filters"));
-// const MissionCardComponent = lazy(() => import("../mission-card"));
+import { HomeContainer, AvtarBox, AvtarContainer, NavbarHome } from "./styles";
+import {Navbar, Nav, Container } from "react-bootstrap";
 
 const Home = () => {
-//   const dispatch = useDispatch();
+  let navigate = useNavigate();
+  //   const dispatch = useDispatch();
 
-//   const {
-//     homepage: { homePageData },
-//   } = useSelector((state) => state);
+  //   const {
+  //     homepage: { homePageData },
+  //   } = useSelector((state) => state);
 
-//   // Call Homepage data API
-//   useEffect(() => {
-//     dispatch(fetchHomePageData());
-//   }, [dispatch]);
+  //   // Call Homepage data API
+  //   useEffect(() => {
+  //     dispatch(fetchHomePageData());
+  //   }, [dispatch]);
 
-const responseGoogle = (response) => {
-  console.log(response);
-  console.log(response.profileObj);
-};
+  const responseGoogle = (response) => {
+    console.log(response);
+    console.log(response.profileObj);
+  };
+
+  const handleOnBuyersClick = () => {
+    // history.push("/buyer");
+    navigate("/buyer");
+  };
+
+  const handleOnRentersClick = () => {
+    navigate("/renter");
+  };
 
   return (
-    <div>
-      <h3>Parksss</h3>
-      <GoogleLogin
-          clientId="438076043163-e4m9b8jp6rnrgb731a48k5jraggoqs3n.apps.googleusercontent.com"
-          buttonText="Login to ParkS"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
-    </div>
+    <HomeContainer>
+      <NavbarHome bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="#home">Parkss</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">About</Nav.Link>
+            <Nav.Link href="#features">Login</Nav.Link>
+            <Nav.Link href="#pricing">Register</Nav.Link>
+          </Nav>
+        </Container>
+      </NavbarHome>
+
+      <AvtarContainer>
+        <AvtarBox onClick={handleOnRentersClick}>
+          Looking for renting a parking space?
+        </AvtarBox>
+        <AvtarBox onClick={handleOnBuyersClick}>
+          Looking for parking space?
+        </AvtarBox>
+      </AvtarContainer>
+    </HomeContainer>
   );
 };
 
