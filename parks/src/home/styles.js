@@ -16,16 +16,18 @@ export const AvtarBox = styled.div`
   width: 40%;
   height: 100%;
   border: 1px solid black;
-  border-radius: 50%;
+  border-radius: 15px 50px 30px;
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-color: #f44336;
+  background-color: #cfcfc4;
   box-shadow: 5px 5px 15px 5px #000000;
+  opacity: 0.85;
+  font-size: 40px;
 `;
 
 export const AvtarContainer = styled.div`
-  height: 60%;
+  height: 40%;
   display: flex;
   justify-content: space-around;
   align-items: center;
