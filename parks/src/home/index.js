@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 // Style imports
 import { HomeContainer, AvtarBox, AvtarContainer, NavbarHome } from "./styles";
-import {Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 const Home = () => {
   let navigate = useNavigate();
@@ -35,6 +35,9 @@ const Home = () => {
     navigate("/renter");
   };
 
+  const handleOnLoginPage = () => {
+    navigate("/login");
+  };
   return (
     <HomeContainer>
       <NavbarHome bg="dark" variant="dark">
@@ -42,7 +45,7 @@ const Home = () => {
           <Navbar.Brand href="#home">Parkss</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
-            <Nav.Link href="#features">Login</Nav.Link>
+            <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
             <Nav.Link href="#pricing">Register</Nav.Link>
           </Nav>
         </Container>
