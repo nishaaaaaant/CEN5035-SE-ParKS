@@ -1,15 +1,34 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import { RegisterDiv, RegisterForm } from "./styles";
 import { NavbarHome } from "../home/styles";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
-const handleOnRegisterClick = () => {
-  console.log("To check for registration");
-};
+import { useSelector, useDispatch } from "react-redux";
+import { newUserRegistraion } from "./ActionCreators";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const {
+    homepage: { homePageData, isFetching, isSuccess },
+  } = useSelector((state) => state);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (!isFetching && isSuccess) {
+      navigate("/");
+    }
+  }, [isFetching, isSuccess]);
+
+  const responseGoogle = (response) => {
+    console.log(response);
+    console.log(response.profileObj);
+  };
 
   const handelOnHomeClick = () => {
     navigate("/");
@@ -17,6 +36,39 @@ const RegisterPage = () => {
 
   const handleOnLoginPage = () => {
     navigate("/login");
+  };
+
+  const handleOnRegister = () => {
+    navigate("/registration");
+  };
+
+  const handleOnFirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleOnLastNameChange = (e) => {
+    setLastName(e.target.value);
+  };
+
+  const handleOnEmailChange = (e) => {
+    setEmailId(e.target.value);
+  };
+
+  const handleOnPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleOnRegisterClick = (e) => {
+    e.preventDefault();
+    const data = {
+      FirstName: firstName,
+      LastName: lastName,
+      Email: emailId,
+      Password: password,
+    };
+    console.log(data);
+    // Call new user registraion API
+    dispatch(newUserRegistraion(data));
   };
 
   return (
@@ -27,7 +79,7 @@ const RegisterPage = () => {
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
             <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
-            <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
+            <Nav.Link onClick={handleOnRegister}>Register</Nav.Link>
           </Nav>
         </Container>
       </NavbarHome>
@@ -41,6 +93,7 @@ const RegisterPage = () => {
               type="text"
               className="form-control"
               placeholder="First name"
+              onChange={(e) => handleOnFirstNameChange(e)}
             />
           </div>
           <div className="form-group">
@@ -49,6 +102,7 @@ const RegisterPage = () => {
               type="text"
               className="form-control"
               placeholder="Last name"
+              onChange={(e) => handleOnLastNameChange(e)}
             />
           </div>
           <div className="form-group">
@@ -57,6 +111,7 @@ const RegisterPage = () => {
               type="email"
               className="form-control"
               placeholder="Enter email"
+              onChange={(e) => handleOnEmailChange(e)}
             />
           </div>
           <div className="form-group">
@@ -65,6 +120,7 @@ const RegisterPage = () => {
               type="password"
               className="form-control"
               placeholder="Enter password"
+              onChange={(e) => handleOnPasswordChange(e)}
             />
           </div>
           <button
