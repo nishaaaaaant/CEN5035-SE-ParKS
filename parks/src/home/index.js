@@ -35,6 +35,9 @@ const Home = () => {
     navigate("/renter");
   };
 
+  const handleOnRegisterClick = () => {
+    navigate("/registration");
+  }
   return (
     <HomeContainer>
       <NavbarHome bg="dark" variant="dark">
@@ -43,7 +46,7 @@ const Home = () => {
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
             <Nav.Link href="#features">Login</Nav.Link>
-            <Nav.Link href="#pricing">Register</Nav.Link>
+            <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
           </Nav>
         </Container>
       </NavbarHome>
