@@ -11,13 +11,19 @@ import { REGISTRATION_API } from "../constants";
  * @description Fetch Home page data
  * @param {} dispatch
  */
-export function newUserRegistraion() {
+export function newUserRegistraion(data) {
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+  };
+  debugger;
+  console.log(data);
   return (dispatch) => {
     dispatch(requestUserRegistration());
     return axios
-      .get(REGISTRATION_API)
+      .post(REGISTRATION_API, data, { headers })
       .then((response) => {
-          console.log(response);
+        console.log(response);
+        alert("Registraion Successfull!!!");
         dispatch(receiveUserRegistration(response?.data));
       })
       .catch(() => {
