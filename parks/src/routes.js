@@ -5,6 +5,7 @@ const Home = lazy(() => import("./home"));
 const BuyersPage = lazy(() => import("./buyersPage"));
 const RentersPage = lazy(() => import("./rentersPage"));
 const Login = lazy(() => import("./login"));
+const RegisterPage = lazy(() => import("./registration"));
 
 const AppRoutes = () => (
   <Suspense fallback={""}>
@@ -13,6 +14,7 @@ const AppRoutes = () => (
       <Route exact path="/buyer" element={<BuyersPage />}></Route>
       <Route exact path="/renter" element={<RentersPage />}></Route>
       <Route exact path="/login" element={<Login />}></Route>
+      <Route exact path="/registration" element={<RegisterPage />}></Route>
     </Routes>
   </Suspense>
 );
