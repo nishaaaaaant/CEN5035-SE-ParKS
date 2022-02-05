@@ -1,8 +1,8 @@
 import React, { useEffect, lazy, Suspense } from "react";
 // import GoogleLogin from "react-google-login";
 import { useNavigate } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
-// import { fetchHomePageData } from "./ActionCreators";
+import { useSelector, useDispatch } from "react-redux";
+import { newUserRegistraion } from "./ActionCreators";
 
 // Style imports
 import { HomeContainer, AvtarBox, AvtarContainer, NavbarHome } from "./styles";
@@ -10,7 +10,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 
 const Home = () => {
   let navigate = useNavigate();
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   //   const {
   //     homepage: { homePageData },
