@@ -5,7 +5,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const handleOnRegisterClick = () => {
-  console.log("register pe click kiyaa");
+  console.log("To check for registration");
 };
 
 const RegisterPage = () => {
@@ -15,14 +15,18 @@ const RegisterPage = () => {
     navigate("/");
   };
 
+  const handleOnLoginPage = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <NavbarHome bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand onClick={handelOnHomeClick}>Parkss</Navbar.Brand>
+          <Navbar.Brand onClick={handelOnHomeClick}>ParkS</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
-            <Nav.Link href="#features">Login</Nav.Link>
+            <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
             <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
           </Nav>
         </Container>
@@ -70,9 +74,10 @@ const RegisterPage = () => {
           >
             Sign Up
           </button>
-          <p className="forgot-password text-right">
-            Already registered <a onClick={null}>sign in?</a>
-          </p>
+          <p className="forgot-password text-right">Already registered</p>
+          <a style={{ color: "red" }} onClick={handleOnLoginPage}>
+            Login
+          </a>
         </RegisterForm>
       </RegisterDiv>
     </>

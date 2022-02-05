@@ -1,26 +1,35 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Navbar, Nav, Container } from "react-bootstrap";
 
 import { LoginContainer } from "./styles";
 import { NavbarHome } from "../home/styles";
 
 const Login = () => {
+  let navigate = useNavigate();
+
+  const handleOnHomePage = () => {
+    navigate("/");
+  };
+  const handleOnRegisterClick = () => {
+    navigate("/registration");
+  };
   return (
     <>
       <NavbarHome bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Parkss</Navbar.Brand>
+          <Navbar.Brand onClick={handleOnHomePage}>ParkS</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
             <Nav.Link onClick="#login">Login</Nav.Link>
-            <Nav.Link href="#pricing">Register</Nav.Link>
+            <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
           </Nav>
         </Container>
       </NavbarHome>
       <LoginContainer>
         <Form>
-          <h1>Login to Parks</h1>
+          <h1>Login to ParkS</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />

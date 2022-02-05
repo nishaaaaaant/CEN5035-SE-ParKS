@@ -45,7 +45,7 @@ const Home = () => {
     <HomeContainer>
       <NavbarHome bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Parkss</Navbar.Brand>
+          <Navbar.Brand href="#home">ParkS</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">About</Nav.Link>
             <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
