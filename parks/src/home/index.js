@@ -41,13 +41,16 @@ const Home = () => {
   const handleOnRegisterClick = () => {
     navigate("/registration");
   };
+  const handleOnAbout = () => {
+    navigate("/about");
+  };
   return (
     <HomeContainer>
       <NavbarHome bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">ParkS</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">About</Nav.Link>
+            <Nav.Link onClick={handleOnAbout}>About</Nav.Link>
             <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
             <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
           </Nav>
