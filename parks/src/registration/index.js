@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { RegisterDiv, RegisterForm } from "./styles";
-import { NavbarHome } from "../home/styles";
-import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { newUserRegistraion } from "./ActionCreators";
+
+const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -23,26 +23,23 @@ const RegisterPage = () => {
     if (!isFetching && isSuccess) {
       navigate("/");
     }
-  }, [isFetching, isSuccess]);
+  }, [isFetching, isSuccess, navigate]);
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    console.log(response.profileObj);
-  };
+  // const responseGoogle = (response) => {
+  //   console.log(response);
+  //   console.log(response.profileObj);
+  // };
 
-  const handelOnHomeClick = () => {
-    navigate("/");
+  const renderNavbar = () => {
+    return (
+      <Suspense fallback={""}>
+        <NavbarComponent />
+      </Suspense>
+    );
   };
 
   const handleOnLoginPage = () => {
     navigate("/login");
-  };
-  const handleOnAbout = () => {
-    navigate("/about");
-  };
-
-  const handleOnRegister = () => {
-    navigate("/registration");
   };
 
   const handleOnFirstNameChange = (e) => {
@@ -70,22 +67,14 @@ const RegisterPage = () => {
       Password: password,
     };
     console.log(data);
+    console.log(homePageData);
     // Call new user registraion API
     dispatch(newUserRegistraion(data));
   };
 
   return (
     <>
-      <NavbarHome bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand onClick={handelOnHomeClick}>ParkS</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link onClick={handleOnAbout}>About</Nav.Link>
-            <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
-            <Nav.Link onClick={handleOnRegister}>Register</Nav.Link>
-          </Nav>
-        </Container>
-      </NavbarHome>
+      {renderNavbar()}
 
       <RegisterDiv>
         <RegisterForm>
@@ -134,9 +123,9 @@ const RegisterPage = () => {
             Sign Up
           </button>
           <p className="forgot-password text-right">Already registered</p>
-          <a style={{ color: "red" }} onClick={handleOnLoginPage}>
+          <span style={{ color: "red" }} onClick={handleOnLoginPage}>
             Login
-          </a>
+          </span>
         </RegisterForm>
       </RegisterDiv>
     </>

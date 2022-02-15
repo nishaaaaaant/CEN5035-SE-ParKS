@@ -1,35 +1,22 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { Form, Button, Navbar, Nav, Container } from "react-bootstrap";
+import React, { lazy, Suspense } from "react";
+import { Form, Button } from "react-bootstrap";
 
 import { LoginContainer } from "./styles";
-import { NavbarHome } from "../home/styles";
+
+const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const Login = () => {
-  let navigate = useNavigate();
+  const renderNavbar = () => {
+    return (
+      <Suspense fallback={""}>
+        <NavbarComponent />
+      </Suspense>
+    );
+  };
 
-  const handleOnHomePage = () => {
-    navigate("/");
-  };
-  const handleOnRegisterClick = () => {
-    navigate("/registration");
-  };
-  const handleOnAbout = () => {
-    navigate("/about");
-  };
   return (
     <>
-      <NavbarHome bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand onClick={handleOnHomePage}>ParkS</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link onclick={handleOnAbout}>About</Nav.Link>
-            <Nav.Link onClick="#login">Login</Nav.Link>
-            <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
-          </Nav>
-        </Container>
-      </NavbarHome>
+      {renderNavbar()}
       <LoginContainer>
         <Form>
           <h1>Login to ParkS</h1>
