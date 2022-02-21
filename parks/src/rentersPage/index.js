@@ -1,9 +1,20 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
+
+const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const RentersPage = () => {
+  const renderNavbar = () => {
+    return (
+      <Suspense fallback={""}>
+        <NavbarComponent />
+      </Suspense>
+    );
+  };
+
   return (
     <div>
-      <h3>Renters Page</h3>
+      {renderNavbar()}
+      <h3 style={{ marginTop: 60 }}>Renters Page</h3>
     </div>
   );
 };
