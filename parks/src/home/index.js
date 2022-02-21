@@ -1,33 +1,39 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 // import GoogleLogin from "react-google-login";
 import { useNavigate } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
-// import { fetchHomePageData } from "./ActionCreators";
 
 // Style imports
-import { HomeContainer, AvtarBox, AvtarContainer, NavbarHome } from "./styles";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { HomeContainer, AvtarBox, AvtarContainer } from "./styles";
+
+const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const Home = () => {
   let navigate = useNavigate();
-  //   const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  //   const {
-  //     homepage: { homePageData },
-  //   } = useSelector((state) => state);
+  // const {
+  //   homepage: { homePageData },
+  // } = useSelector((state) => state);
 
-  //   // Call Homepage data API
-  //   useEffect(() => {
-  //     dispatch(fetchHomePageData());
-  //   }, [dispatch]);
+  // // Call new user registraion API
+  // useEffect(() => {
+  //   dispatch(newUserRegistraion());
+  // }, [dispatch]);
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    console.log(response.profileObj);
+  // const responseGoogle = (response) => {
+  //   console.log(response);
+  //   console.log(response.profileObj);
+  // };
+
+  const renderNavbar = () => {
+    return (
+      <Suspense fallback={""}>
+        <NavbarComponent />
+      </Suspense>
+    );
   };
 
   const handleOnBuyersClick = () => {
-    // history.push("/buyer");
     navigate("/buyer");
   };
 
@@ -35,24 +41,9 @@ const Home = () => {
     navigate("/renter");
   };
 
-  const handleOnLoginPage = () => {
-    navigate("/login");
-  };
-  const handleOnRegisterClick = () => {
-    navigate("/registration");
-  };
   return (
     <HomeContainer>
-      <NavbarHome bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="#home">ParkS</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">About</Nav.Link>
-            <Nav.Link onClick={handleOnLoginPage}>Login</Nav.Link>
-            <Nav.Link onClick={handleOnRegisterClick}>Register</Nav.Link>
-          </Nav>
-        </Container>
-      </NavbarHome>
+      {renderNavbar()}
 
       <AvtarContainer>
         <AvtarBox onClick={handleOnRentersClick}>

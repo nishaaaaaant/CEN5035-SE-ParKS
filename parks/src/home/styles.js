@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import homeBg from "../assets/Parks.jpeg";
-import { Navbar } from "react-bootstrap";
 
 export const HomeContainer = styled.div`
   background-color: grey;
@@ -32,11 +31,4 @@ export const AvtarContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-`;
-
-export const NavbarHome = styled(Navbar)`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
 `;
