@@ -35,20 +35,26 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	newUser := models.User{
-		Id:        primitive.NewObjectID(),
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
-		Email:     user.Email,
-		Password:  user.Password,
-	}
+	err1 := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&user)
 
-	result, err := userCollection.InsertOne(ctx, newUser)
-	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
-	}
+	if err1 != nil {
+		newUser := models.User{
+			Id:        primitive.NewObjectID(),
+			FirstName: user.FirstName,
+			LastName:  user.LastName,
+			Email:     user.Email,
+			Password:  user.Password,
+		}
 
-	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
+		result, err := userCollection.InsertOne(ctx, newUser)
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+
+		return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
+	} else {
+		return c.Status(http.StatusOK).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "Record already exists!!", Data: &fiber.Map{"data": user}})
+	}
 }
 
 func GetAUser(c *fiber.Ctx) error {
