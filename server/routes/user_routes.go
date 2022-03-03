@@ -13,3 +13,7 @@ func UserRoute(app *fiber.App) {
 	app.Delete("/user/:userId", controllers.DeleteAUser)
 	app.Get("/users", controllers.GetAllUsers)
 }
+
+// func LoginRoute(app *fiber.App) {
+// 	app.Get("/login/:userId", controllers.UserLogin)
+// }
