@@ -53,7 +53,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 		return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
 	} else {
-		return c.Status(http.StatusOK).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "Record already exists!!", Data: &fiber.Map{"data": user}})
+		return c.Status(http.StatusForbidden).JSON(responses.UserResponse{Status: http.StatusForbidden, Message: "Record already exists!!", Data: &fiber.Map{"data": user}})
 	}
 }
 
