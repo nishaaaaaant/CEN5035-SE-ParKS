@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import homeBg from "../assets/Parks.jpeg";
+import homeBg from "../assets/home.jpg";
 
 export const HomeContainer = styled.div`
   background-color: grey;
@@ -8,6 +8,7 @@ export const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   background-image: url(${homeBg});
+  background-size: 100%;
 `;
 
 export const AvtarBox = styled.div`
