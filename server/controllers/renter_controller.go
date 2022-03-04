@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"gopkg.in/mgo.v2/bson"
 	//other import goes here
 )
 
@@ -52,4 +53,31 @@ func AddNewAddress(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
+}
+
+func GetAllAddresses(c *fiber.Ctx) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var properties []models.Property
+	defer cancel()
+
+	results, err := renterCollection.Find(ctx, bson.M{})
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	//reading from the db in an optimal way
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var address models.Property
+		if err = results.Decode(&address); err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+
+		properties = append(properties, address)
+	}
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": properties}},
+	)
 }
