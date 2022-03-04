@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from "react";
+import MyMap from "./MyMap";
 
 const NavbarComponent = lazy(() => import("../common/navbar"));
 
@@ -15,6 +16,7 @@ const BuyersPage = () => {
     <div>
       {renderNavbar()}
       <h3 style={{ marginTop: 60 }}>Buyers Page</h3>
+      <MyMap />
     </div>
   );
 };
