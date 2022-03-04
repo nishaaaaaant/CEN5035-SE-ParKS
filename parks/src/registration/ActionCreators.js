@@ -15,7 +15,6 @@ export function newUserRegistraion(data) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
   };
-  debugger;
   console.log(data);
   return (dispatch) => {
     dispatch(requestUserRegistration());
@@ -26,8 +25,10 @@ export function newUserRegistraion(data) {
         alert("Registraion Successfull!!!");
         dispatch(receiveUserRegistration(response?.data));
       })
-      .catch(() => {
-        dispatch(failureUserRegistration());
+      .catch((e) => {
+        console.log(e.response.status === 403) ;
+        alert("User is already registered!!!");
+        dispatch(failureUserRegistration(e.response.status === 403));
       });
   };
 }

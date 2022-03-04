@@ -26,7 +26,7 @@ export function newUserLogin(data) {
         alert("Login Successfull!!!");
         dispatch(receiveUserLogin(response?.data?.data?.data));
       })
-      .catch(() => {
+      .catch((e) => {
         dispatch(failureUserLogin());
       });
   };

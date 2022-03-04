@@ -5,6 +5,7 @@ const defaultState = {
   isFetching: false,
   isSuccess: false,
   isError: false,
+  isUserRegistered: false
 };
 
 const HomePageReducer = function (state = defaultState, action) {
@@ -29,6 +30,7 @@ const HomePageReducer = function (state = defaultState, action) {
         isFetching: false,
         isSuccess: false,
         isError: true,
+        isUserRegistered: action.payload
       };
     default:
       return state;
