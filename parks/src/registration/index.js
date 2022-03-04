@@ -65,6 +65,7 @@ const RegisterPage = () => {
       LastName: lastName,
       Email: emailId,
       Password: password,
+      UserRole: "BUYER",
     };
     console.log(data);
     console.log(homePageData);
