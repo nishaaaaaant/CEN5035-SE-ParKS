@@ -4,7 +4,7 @@ import MyMap from "./MyMap";
 const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const BuyersPage = () => {
-  const position = [51.505, -0.09];
+  // const position = [51.505, -0.09];
 
   const renderNavbar = () => {
     return (
@@ -14,10 +14,10 @@ const BuyersPage = () => {
     );
   };
 
-  const myMap = L.map("parksMap", {
-    center: [37.7749, -122.4194],
-    zoom: 13,
-  });
+  // const myMap = L.map("parksMap", {
+  //   center: [37.7749, -122.4194],
+  //   zoom: 13,
+  // });
 
   return (
     <div>
