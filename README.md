@@ -4,10 +4,10 @@ Group project for Software-Engineering course (CEN5035)
 
 ## Group-Members
 
-1. Srinivas Nishant Viswanadha (viswanadha.s@ufl.edu)
-2. Suraj Mishra (mishra.suraj@ufl.edu)
-3. Neerav Jain (jainneerav@ufl.edu)
-4. Tanvi Jain (tjain@ufl.edu)
+1. Srinivas Nishant Viswanadha (viswanadha.s@ufl.edu) (https://github.com/nishaaaaaant)
+2. Suraj Mishra (mishra.suraj@ufl.edu) (https://github.com/smsuraj100)
+3. Neerav Jain (jainneerav@ufl.edu) (https://github.com/neeravjain24)
+4. Tanvi Jain (tjain@ufl.edu) (https://github.com/tjain1715)
 
 ## Project Description
 
