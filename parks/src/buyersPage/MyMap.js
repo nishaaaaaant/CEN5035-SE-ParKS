@@ -2,7 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 function MyMap() {
-  const position = [29.6436, 82.3549];
+  const position = [29.6436, -82.3549];
   return (
     <MapContainer
       className="map"
