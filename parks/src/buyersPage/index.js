@@ -20,7 +20,7 @@ const BuyersPage = () => {
   // });
 
   return (
-    <div>
+    <div id="buyerPageDiv">
       {renderNavbar()}
       <h3 style={{ marginTop: 60 }}>Buyers Page</h3>
       <MyMap />

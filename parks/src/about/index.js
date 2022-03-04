@@ -15,7 +15,7 @@ const About = () => {
   };
 
   return (
-    <AboutContainer>
+    <AboutContainer id="aboutPageDiv">
       {renderNavbar()}
       <h3 style={{ marginTop: 60 }}>About-Us</h3>
       <p>We’re on a mission to empower people to get everywhere, easier!</p>
