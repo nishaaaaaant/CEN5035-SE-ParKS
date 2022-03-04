@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import { LoginContainer, LoginForm, SubmitBtn } from "./styles";
 
