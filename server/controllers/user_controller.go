@@ -35,6 +35,8 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
+	print("Registraion started!!")
+
 	err1 := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&user)
 
 	if err1 != nil {
@@ -165,6 +167,28 @@ func GetAllUsers(c *fiber.Ctx) error {
 	)
 }
 
-// func UserLogin(c *fiber.Ctx) error {
+func UserLogin(c *fiber.Ctx) error {
+	//Login code goes here
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var login models.Login
+	defer cancel()
 
-// }
+	//validate the request body
+	if err := c.BodyParser(&login); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&login); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+
+	var userDetails bson.M
+	err1 := userCollection.FindOne(ctx, bson.M{"email": login.Email, "password": login.Password}).Decode(&userDetails)
+
+	if err1 != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err1.Error()}})
+	}
+	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": userDetails}})
+
+}
