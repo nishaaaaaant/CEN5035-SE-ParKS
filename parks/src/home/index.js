@@ -42,7 +42,7 @@ const Home = () => {
   };
 
   return (
-    <HomeContainer>
+    <HomeContainer id="container">
       {renderNavbar()}
 
       <AvtarContainer>
