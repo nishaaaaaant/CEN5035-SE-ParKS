@@ -18,6 +18,7 @@ export const receiveUserRegistration = (payload) => ({
 /**
  * @description Failure action for registering new user
  */
-export const failureUserRegistration = () => ({
+export const failureUserRegistration = (payload) => ({
   type: types.FAILURE_USER_REGISTRAION,
+  payload,
 });

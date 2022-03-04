@@ -11,7 +11,7 @@ const RegisterPage = () => {
   let navigate = useNavigate();
 
   const {
-    homepage: { homePageData, isFetching, isSuccess },
+    homepage: { homePageData, isFetching, isSuccess, isUserRegistered },
   } = useSelector((state) => state);
 
   const [firstName, setFirstName] = useState("");
@@ -20,10 +20,10 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (!isFetching && isSuccess) {
-      navigate("/");
+    if ((!isFetching && isSuccess) || isUserRegistered) {
+      navigate("/login");
     }
-  }, [isFetching, isSuccess, navigate]);
+  }, [isFetching, isSuccess, isUserRegistered, navigate]);
 
   // const responseGoogle = (response) => {
   //   console.log(response);
@@ -65,6 +65,7 @@ const RegisterPage = () => {
       LastName: lastName,
       Email: emailId,
       Password: password,
+      UserRole: "BUYER",
     };
     console.log(data);
     console.log(homePageData);
