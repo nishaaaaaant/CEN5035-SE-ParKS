@@ -14,7 +14,3 @@ func UserRoute(app *fiber.App) {
 	app.Get("/users", controllers.GetAllUsers)
 	app.Post("/login", controllers.UserLogin)
 }
-
-// func LoginRoute(app *fiber.App) {
-// 	app.Get("/login/:userId", controllers.UserLogin)
-// }
