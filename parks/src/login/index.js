@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <>
       {renderNavbar()}
-      <LoginContainer>
+      <LoginContainer id="loginPageDiv">
         <LoginForm>
           <h1>Login to ParkS</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">

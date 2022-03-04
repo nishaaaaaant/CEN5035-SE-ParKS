@@ -42,7 +42,7 @@ const Home = () => {
   };
 
   return (
-    <HomeContainer id="container">
+    <HomeContainer id="homePageDiv">
       {renderNavbar()}
 
       <AvtarContainer>

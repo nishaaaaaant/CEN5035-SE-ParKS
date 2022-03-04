@@ -77,7 +77,7 @@ const RegisterPage = () => {
     <>
       {renderNavbar()}
 
-      <RegisterDiv>
+      <RegisterDiv id ="registrationPageDiv">
         <RegisterForm>
           <h3>Sign Up</h3>
           <div className="form-group">
