@@ -29,3 +29,8 @@ Group project for Software-Engineering course (CEN5035)
 - React + Redux (For FrontEnd)
 - GoLang (for BackEnd)
 - MongoDb (Database)
+
+## Work-Distribution
+
+- FrontEnd: Srinivas Nishant, Neerav Jain, Suraj Mishra
+- BackEnd: Suraj Mishra, Tanvi Jain
