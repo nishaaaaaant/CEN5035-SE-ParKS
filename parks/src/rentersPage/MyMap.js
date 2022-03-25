@@ -8,7 +8,7 @@ function MyMap() {
       className="map"
       center={position}
       zoom={20}
-      style={{ height: 300, width: "100%" }}
+      style={{ height: 300, width: "80%" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -15,19 +15,8 @@ const BuyersPage = () => {
   return (
     <div id="buyerPageDiv">
       {renderNavbar()}
-      <div style={{ marginTop: 60 }}>
-        <div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div>
-          <MyMap />
-        </div>
-      </div>
+      <h3 style={{ marginTop: 60 }}>Buyers Page</h3>
+        <MyMap />
     </div>
   );
 };
