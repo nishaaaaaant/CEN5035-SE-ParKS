@@ -8,7 +8,7 @@ describe("check the functionality of the pages",() => {
         cy.get('#formBasicEmail').type('testing@test.com');
         cy.get('#formBasicPassword').clear();
         cy.get('#formBasicPassword').type('test@123');
-        cy.get('.btn').click();
+        cy.get('.sc-dkPtRN').click();
         /* ==== End Cypress Studio ==== */
     });
 
@@ -19,12 +19,17 @@ describe("check the functionality of the pages",() => {
         cy.get(':nth-child(2) > .form-control').clear();
         cy.get(':nth-child(2) > .form-control').type('test');
         cy.get(':nth-child(3) > .form-control').clear();
-        cy.get(':nth-child(3) > .form-control').type('testing');
+        cy.get(':nth-child(3) > .form-control').type('test');
         cy.get(':nth-child(4) > .form-control').clear();
-        cy.get(':nth-child(4) > .form-control').type('testing@test.com');
+        cy.get(':nth-child(4) > .form-control').type('test@gmail.com');
         cy.get(':nth-child(5) > .form-control').clear();
         cy.get(':nth-child(5) > .form-control').type('test@123');
-        cy.get('.btn').click();
+        cy.get('.sc-gsDKAQ > .btn').click();
+        cy.get('#formBasicEmail').clear();
+        cy.get('#formBasicEmail').type('test@gmail.com');
+        cy.get('#formBasicPassword').clear();
+        cy.get('#formBasicPassword').type('test@123');
+        cy.get('.sc-jRQBWg').click();
         /* ==== End Cypress Studio ==== */
     });
 
@@ -32,28 +37,6 @@ describe("check the functionality of the pages",() => {
         cy.visit("/buyer")
         cy.get("#buyerPageDiv").should("exist")
         /* ==== Generated with Cypress Studio ==== */
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
-        cy.get('.leaflet-control-zoom-out').click();
         cy.get('.leaflet-control-zoom-out').click();
         cy.get('.leaflet-control-zoom-out').click();
         cy.get('.leaflet-control-zoom-out').click();
