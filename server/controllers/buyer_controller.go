@@ -16,40 +16,38 @@ import (
 	//other import goes here
 )
 
-var rentersCollection *mongo.Collection = configs.GetCollection(configs.DB, "renters")
-var rentersValidate = validator.New()
+var buyerCollection *mongo.Collection = configs.GetCollection(configs.DB, "buyer")
+var renterCollection *mongo.Collection = configs.GetCollection(configs.DB, "renters")
+var buyerValidate = validator.New()
+var renterValidate = validator.New()
 
-func AddNewAddress(c *fiber.Ctx) error {
+func AddNewBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	var property models.Property
+	var buyer models.Buyer
 	defer cancel()
 
 	//validate the request body
-	if err := c.BodyParser(&property); err != nil {
+	if err := c.BodyParser(&buyer); err != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
 
 	//use the validator library to validate required fields
-	if validationErr := rentersValidate.Struct(&property); validationErr != nil {
+	if validationErr := buyerValidate.Struct(&buyer); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	newAddress := models.Property{
+	newBuyerRecord := models.Buyer{
 		Id:        primitive.NewObjectID(),
-		UserId:    property.UserId,
-		Address1:  property.Address1,
-		Address2:  property.Address2,
-		City:      property.City,
-		State:     property.State,
-		Zip:       property.Zip,
-		Mobile:    property.Mobile,
-		Rate:      property.Rate,
-		NoOfSpace: property.NoOfSpace,
-		Latitude:  property.Latitude,
-		Longitude: property.Longitude,
+		UserId:    buyer.UserId,
+		RenterId:  buyer.RenterId,
+		Flag:      buyer.Flag,
+		NoOfSpace: buyer.NoOfSpace,
+		Rate:      buyer.Rate,
+		StartDate: buyer.StartDate,
+		EndDate:   buyer.EndDate,
 	}
 
-	result, err := rentersCollection.InsertOne(ctx, newAddress)
+	result, err := buyerCollection.InsertOne(ctx, newBuyerRecord)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
@@ -57,12 +55,27 @@ func AddNewAddress(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
 }
 
-func GetAllAddresses(c *fiber.Ctx) error {
+func GetBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	var properties []models.Property
+	var buyerInfo models.BuyerInfo
+	var buyers []models.Buyer
 	defer cancel()
 
-	results, err := rentersCollection.Find(ctx, bson.M{})
+	//validate the request body
+	if err := c.BodyParser(&buyerInfo); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+	// if buyerInfo.RenterId == "" {
+	// 	println(buyerInfo.RenterId)
+	// }
+	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId})
+
+	println(results)
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -71,15 +84,14 @@ func GetAllAddresses(c *fiber.Ctx) error {
 	//reading from the db in an optimal way
 	defer results.Close(ctx)
 	for results.Next(ctx) {
-		var address models.Property
-		if err = results.Decode(&address); err != nil {
+		var buyerRecord models.Buyer
+		if err = results.Decode(&buyerRecord); err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 		}
-
-		properties = append(properties, address)
+		buyers = append(buyers, buyerRecord)
 	}
 
 	return c.Status(http.StatusOK).JSON(
-		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": properties}},
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": buyers}},
 	)
 }

@@ -39,3 +39,32 @@ export const MapSidebar = styled.div`
 export const MapContainer = styled.div`
   height: 500px;
 `;
+
+export const SlotContainer = styled.div`
+  width: 100%;
+  height: 500px;
+  overflow: scroll;
+`;
+
+export const ButtonContainer = styled.div`
+  align-self: flex-end;
+  margin-top: 20px;
+`;
+
+export const CancelButton = styled.button`
+  width: 120px;
+  padding: 10px;
+  font-size: 22px;
+  background-color: indianred;
+  border-radius: 10px;
+  margin-right: 10px;
+`;
+
+export const BookNowButton = styled.button`
+  width: 130px;
+  padding: 10px;
+  font-size: 22px;
+  background-color: mediumseagreen;
+  border-radius: 10px;
+  margin-right: 10px;
+`;

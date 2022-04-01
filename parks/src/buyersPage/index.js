@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import MyMap from "./MyMap";
 
 import { InputGroup, FormControl } from "react-bootstrap";
@@ -45,8 +45,19 @@ const tempData = [
 
 const NavbarComponent = lazy(() => import("../common/navbar"));
 // const AddressListBox = lazy(() => import("./AddressListBox"));
+const SlotBooking = lazy(() => import("./SlotBooking"));
 
 const BuyersPage = () => {
+  const [flag, setFlag] = useState(false);
+
+  const handleOnContinueClick = () => {
+    setFlag(true);
+  };
+
+  const handleonCancelClick = () => {
+    setFlag(false);
+  };
+
   const renderNavbar = () => {
     return (
       <Suspense fallback={""}>
@@ -60,7 +71,13 @@ const BuyersPage = () => {
       <Suspense fallback={""}>
         <BuyerListContainer>
           {tempData.map((ele, i) => {
-            return <AddressListBox key={i} data={ele} />;
+            return (
+              <AddressListBox
+                key={i}
+                data={ele}
+                handleOnContinueClick={handleOnContinueClick}
+              />
+            );
           })}
         </BuyerListContainer>
       </Suspense>
@@ -70,23 +87,27 @@ const BuyersPage = () => {
   return (
     <div id="buyerPageDiv">
       {renderNavbar()}
-      <BuyersContainer>
-        <div>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="Search a location"
-              aria-label="Search a location"
-            />
-            <InputGroup.Text id="basic-addon2">Search</InputGroup.Text>
-          </InputGroup>
-        </div>
-        <BuyerDetailsContainer>
-          {renderAddressList()}
-          <BuyerMapContainer>
-            <MyMap />
-          </BuyerMapContainer>
-        </BuyerDetailsContainer>
-      </BuyersContainer>
+      {!flag ? (
+        <BuyersContainer>
+          <div>
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Search a location"
+                aria-label="Search a location"
+              />
+              <InputGroup.Text id="basic-addon2">Search</InputGroup.Text>
+            </InputGroup>
+          </div>
+          <BuyerDetailsContainer>
+            {renderAddressList()}
+            <BuyerMapContainer>
+              <MyMap />
+            </BuyerMapContainer>
+          </BuyerDetailsContainer>
+        </BuyersContainer>
+      ) : (
+        <SlotBooking handleonCancelClick={handleonCancelClick} />
+      )}
     </div>
   );
 };
