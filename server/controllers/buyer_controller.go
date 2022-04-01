@@ -32,7 +32,7 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 	}
 
 	//use the validator library to validate required fields
-	if validationErr := rentersValidate.Struct(&buyer); validationErr != nil {
+	if validationErr := buyerValidate.Struct(&buyer); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
@@ -43,7 +43,8 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 		Flag:      buyer.Flag,
 		NoOfSpace: buyer.NoOfSpace,
 		Rate:      buyer.Rate,
-		Date:      buyer.Date,
+		StartDate: buyer.StartDate,
+		EndDate:   buyer.EndDate,
 	}
 
 	result, err := buyerCollection.InsertOne(ctx, newBuyerRecord)
@@ -56,10 +57,13 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 
 func GetBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	userId := c.Params("userid")
 	var buyers []models.Buyer
 	defer cancel()
 
-	results, err := buyerCollection.Find(ctx, bson.M{})
+	// objId, _ := primitive.ObjectIDFromHex(userId)
+
+	results, err := buyerCollection.Find(ctx, bson.M{"userid": userId})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
