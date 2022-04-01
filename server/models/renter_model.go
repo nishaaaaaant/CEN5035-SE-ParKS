@@ -13,4 +13,6 @@ type Property struct {
 	Mobile    int                `json:"mobile,omitempty" validate:"required"`
 	Rate      int                `json:"rate,omitempty" validate:"required"`
 	NoOfSpace string             `json:"noofspace,omitempty" validate:"required"`
+	Latitude  float32            `json:"latitude,omitempty" validate:"required"`
+	Longitude float32            `json:"longitude,omitempty" validate:"required"`
 }

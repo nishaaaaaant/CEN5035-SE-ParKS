@@ -45,6 +45,8 @@ func AddNewAddress(c *fiber.Ctx) error {
 		Mobile:    property.Mobile,
 		Rate:      property.Rate,
 		NoOfSpace: property.NoOfSpace,
+		Latitude:  property.Latitude,
+		Longitude: property.Longitude,
 	}
 
 	result, err := rentersCollection.InsertOne(ctx, newAddress)
