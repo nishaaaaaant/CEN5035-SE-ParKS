@@ -28,3 +28,9 @@ type Location struct {
 	Longitude float32            `json:"longitude"`
 	StartDate time.Time          `json:"startdate"`
 }
+
+type Coordinates struct {
+	Id        primitive.ObjectID `json:"id,omitempty"`
+	Latitude  float32            `json:"latitude"`
+	Longitude float32            `json:"longitude"`
+}
