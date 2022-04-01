@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useState } from "react";
 import { newUserAddNewAddress } from "./ActionCreators";
 import { useDispatch } from "react-redux";
+import { RentersForm, Name, TextInput, SubmitButton } from "./style"
 
 function RenterForm(props) {
   const dispatch = useDispatch();
@@ -46,16 +47,16 @@ function RenterForm(props) {
   }
   return (
     <div>
-      <form onSubmit={(e) => submit(e)}>
-        <input
+      <RentersForm onSubmit={(e) => submit(e)}>
+        <TextInput
           onChange={(e) => handle(e)}
           placeholder="Name"
           defaultValue={data.name}
           id="UserId"
           type="text"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           onChange={(e) => handle(e)}
           //   value={data.addressLine1}
           defaultValue={data.addressLine1}
@@ -63,64 +64,64 @@ function RenterForm(props) {
           id="Address1"
           type="text"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           onChange={(e) => handle(e)}
           defaultValue={data.addressLine2}
           placeholder="Address Line 2"
           id="Address2"
           type="text"
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.city}
           onChange={(e) => handle(e)}
           placeholder="City"
           type="text"
           id="City"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.state}
           onChange={(e) => handle(e)}
           placeholder="State"
           type="text"
           id="State"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.zipcode}
           onChange={(e) => handle(e)}
           placeholder="Zipcode"
           type="text"
           id="Zip"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.mobile}
           onChange={(e) => handle(e)}
           placeholder="Mobile"
           type="tel"
           id="Mobile"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.rph}
           onChange={(e) => handle(e)}
           placeholder="Rate Per Hour"
           type="number"
           id="Rate"
           required
-        ></input>
-        <input
+        ></TextInput>
+        <TextInput
           defaultValue={data.nos}
           onChange={(e) => handle(e)}
           placeholder="Number of Spaces"
           type="number"
           id="NoOfSpace"
           required
-        ></input>
-        <button>Submit</button>
-      </form>
+        ></TextInput>
+        <SubmitButton>Submit</SubmitButton>
+      </RentersForm>
     </div>
   );
 }

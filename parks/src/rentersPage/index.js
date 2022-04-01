@@ -16,9 +16,7 @@ const RentersPage = () => {
   return (
     <div id="renterPageDiv">
       {renderNavbar()}
-      <h3 style={{ marginTop: 60 }}>Renters Page</h3>
       <RenterForm />
-      <MyMap />
     </div>
   );
 };
