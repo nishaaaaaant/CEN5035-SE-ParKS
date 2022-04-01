@@ -22,9 +22,9 @@ type Property struct {
 }
 
 type Location struct {
-	Id        primitive.ObjectID   `json:"id,omitempty"`
-	UserId    string               `json:"userid"`
-	Latitude  primitive.Decimal128 `json:"latitude"`
-	Longitude primitive.Decimal128 `json:"longitude"`
-	StartDate time.Time            `json:"startdate"`
+	Id        primitive.ObjectID `json:"id,omitempty"`
+	UserId    string             `json:"userid"`
+	Latitude  float32            `json:"latitude"`
+	Longitude float32            `json:"longitude"`
+	StartDate time.Time          `json:"startdate"`
 }
