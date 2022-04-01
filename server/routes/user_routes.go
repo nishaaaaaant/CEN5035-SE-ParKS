@@ -15,4 +15,6 @@ func UserRoute(app *fiber.App) {
 	app.Post("/login", controllers.UserLogin)
 	app.Post("/newaddress", controllers.AddNewAddress)
 	app.Get("/alladdresses", controllers.GetAllAddresses)
+	app.Post("/buyer", controllers.GetBuyerRecord)
+	app.Post("/newbuyer", controllers.AddNewBuyerRecord)
 }
