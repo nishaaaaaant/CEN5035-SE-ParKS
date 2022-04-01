@@ -57,13 +57,25 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 
 func GetBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	userId := c.Params("userid")
+	var buyerInfo models.BuyerInfo
 	var buyers []models.Buyer
 	defer cancel()
 
-	// objId, _ := primitive.ObjectIDFromHex(userId)
+	//validate the request body
+	if err := c.BodyParser(&buyerInfo); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
 
-	results, err := buyerCollection.Find(ctx, bson.M{"userid": userId})
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+	// if buyerInfo.RenterId == "" {
+	// 	println(buyerInfo.RenterId)
+	// }
+	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId})
+
+	println(results)
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -76,7 +88,6 @@ func GetBuyerRecord(c *fiber.Ctx) error {
 		if err = results.Decode(&buyerRecord); err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 		}
-
 		buyers = append(buyers, buyerRecord)
 	}
 

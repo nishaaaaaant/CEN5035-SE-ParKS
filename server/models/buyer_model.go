@@ -8,11 +8,18 @@ import (
 
 type Buyer struct {
 	Id        primitive.ObjectID `json:"id,omitempty"`
-	UserId    string             `json:"userId,omitempty" validate:"required"`
-	RenterId  string             `json:"renteid,omitempty" validate:"required"`
+	UserId    string             `json:"userid,omitempty" validate:"required"`
+	RenterId  string             `json:"renterid,omitempty" validate:"required"`
 	Flag      string             `json:"flag,omitempty" validate:"required"`
 	Rate      int                `json:"rate,omitempty" validate:"required"`
-	NoOfSpace string             `json:"noOfSpace,omitempty" validate:"required"`
+	NoOfSpace string             `json:"noofspace,omitempty" validate:"required"`
 	StartDate time.Time          `json:"startdate"`
 	EndDate   time.Time          `json:"enddate"`
+}
+
+type BuyerInfo struct {
+	Id       primitive.ObjectID `json:"id,omitempty"`
+	UserId   string             `json:"userid,omitempty" validate:"required"`
+	RenterId string             `json:"renterid"`
+	Flag     string             `json:"flag"`
 }

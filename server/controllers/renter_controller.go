@@ -16,7 +16,7 @@ import (
 	//other import goes here
 )
 
-var renterCollection *mongo.Collection = configs.GetCollection(configs.DB, "renters")
+var rentersCollection *mongo.Collection = configs.GetCollection(configs.DB, "renters")
 var rentersValidate = validator.New()
 
 func AddNewAddress(c *fiber.Ctx) error {
@@ -47,7 +47,7 @@ func AddNewAddress(c *fiber.Ctx) error {
 		NoOfSpace: property.NoOfSpace,
 	}
 
-	result, err := renterCollection.InsertOne(ctx, newAddress)
+	result, err := rentersCollection.InsertOne(ctx, newAddress)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
@@ -60,7 +60,7 @@ func GetAllAddresses(c *fiber.Ctx) error {
 	var properties []models.Property
 	defer cancel()
 
-	results, err := renterCollection.Find(ctx, bson.M{})
+	results, err := rentersCollection.Find(ctx, bson.M{})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
