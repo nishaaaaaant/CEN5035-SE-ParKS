@@ -1,30 +1,39 @@
 import React from "react";
 
 // Style imports
-// import { BuyerListContainer } from "./styles";
+import {
+  AddressListBoxContainer,
+  AddressLabel,
+  ContinueBtn,
+  RateContainer,
+} from "./styles";
 
 const AddressListBox = (props) => {
-
   const {
     data: {
       address: { line1, line2, city, state, zip },
       rate,
     },
-    handleOnContinueClick
+    handleOnContinueClick,
   } = props;
 
   return (
-    <div>
-      <label>{line1 ? line1 : "Hii"},</label>
-      <label>{line2 ? line2 : "Hii"}</label>
+    <AddressListBoxContainer>
       <div>
-        <label>{city ? city : "hii"}, </label>
-        <label>{state ? state : "hii"}, </label>
-        <label>{state ? zip : "hii"}</label>
+        <AddressLabel>{line1 ? line1 : "Hii"},</AddressLabel>
+        <AddressLabel>{line2 ? line2 : "Hii"}</AddressLabel>
       </div>
-      <label>Rate: {rate ? rate : 10}</label>
-      <button onClick={handleOnContinueClick}>Continue</button>
-    </div>
+
+      <div>
+        <AddressLabel>{city ? city : "hii"}, </AddressLabel>
+        <AddressLabel>{state ? state : "hii"}, </AddressLabel>
+        <AddressLabel>{state ? zip : "hii"}</AddressLabel>
+      </div>
+      <RateContainer>
+        <AddressLabel>Rate: {rate ? rate : 10}</AddressLabel>
+        <ContinueBtn onClick={handleOnContinueClick}>Continue</ContinueBtn>
+      </RateContainer>
+    </AddressListBoxContainer>
   );
 };
 
