@@ -10,6 +10,7 @@ const AddressListBox = (props) => {
       address: { line1, line2, city, state, zip },
       rate,
     },
+    handleOnContinueClick
   } = props;
 
   return (
@@ -22,7 +23,7 @@ const AddressListBox = (props) => {
         <label>{state ? zip : "hii"}</label>
       </div>
       <label>Rate: {rate ? rate : 10}</label>
-      <button>Continue</button>
+      <button onClick={handleOnContinueClick}>Continue</button>
     </div>
   );
 };
