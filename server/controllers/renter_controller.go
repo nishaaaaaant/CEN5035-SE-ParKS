@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"gopkg.in/mgo.v2/bson"
 	//other import goes here
 )
@@ -81,5 +82,124 @@ func GetAllAddresses(c *fiber.Ctx) error {
 
 	return c.Status(http.StatusOK).JSON(
 		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": properties}},
+	)
+}
+
+func GetSpecificLocation(c *fiber.Ctx) error {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var location models.Location
+	var renterInfo []models.Property
+	defer cancel()
+
+	//validate the request body
+	if err := c.BodyParser(&location); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&location); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+
+	println(location.Latitude, location.Longitude)
+	results, err := rentersCollection.Find(ctx, bson.M{"latitude": location.Latitude, "longitude": location.Longitude})
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	//reading from the db in an optimal way
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var renterRecord models.Property
+		if err = results.Decode(&renterRecord); err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+		renterInfo = append(renterInfo, renterRecord)
+	}
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": renterInfo}},
+	)
+}
+
+func GetRenterLocations(c *fiber.Ctx) error {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var location models.Location
+	var renterInfo []models.Property
+	defer cancel()
+
+	//validate the request body
+	if err := c.BodyParser(&location); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&location); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+
+	results, err := rentersCollection.Find(ctx, bson.M{"userid": location.UserId})
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	//reading from the db in an optimal way
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var renterRecord models.Property
+		if err = results.Decode(&renterRecord); err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+		renterInfo = append(renterInfo, renterRecord)
+	}
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": renterInfo}},
+	)
+}
+
+func GetAllCoordinates(c *fiber.Ctx) error {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	// var location models.Location
+	var renterInfo []models.Coordinates
+	defer cancel()
+
+	// //validate the request body
+	// if err := c.BodyParser(&location); err != nil {
+	// 	return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	// }
+
+	// // use the validator library to validate required fields
+	// if validationErr := validate.Struct(&location); validationErr != nil {
+	// 	return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	// }
+	opts := options.Find().SetProjection(bson.M{"longitude": 1, "latitude": 1})
+	results, err := rentersCollection.Find(ctx, bson.M{}, opts)
+	// results, err := rentersCollection.Find(ctx, bson.M{})
+
+	println(results)
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	//reading from the db in an optimal way
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var renterRecord models.Coordinates
+		if err = results.Decode(&renterRecord); err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+		println(results.Decode(&renterRecord))
+		renterInfo = append(renterInfo, renterRecord)
+	}
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": renterInfo}},
 	)
 }
