@@ -2,12 +2,14 @@
 
 Group project for Software-Engineering course (CEN5035)
 
-## Group-Members
+## Team Members
 
-1. Srinivas Nishant Viswanadha (viswanadha.s@ufl.edu) (https://github.com/nishaaaaaant)
-2. Suraj Mishra (mishra.suraj@ufl.edu) (https://github.com/smsuraj100)
-3. Neerav Jain (jainneerav@ufl.edu) (https://github.com/neeravjain24)
-4. Tanvi Jain (tjain@ufl.edu) (https://github.com/tjain1715)
+| Name | Gatorlink Email | Responsibility | Github |
+| :--: | :--: | :--: | :--: |
+| Srinivas Nishant Viswanadha | viswanadha.s@ufl.edu | Frontend | <https://github.com/nishaaaaaant> |
+| Suraj Mishra | mishra.suraj@ufl.edu | Backend | <https://github.com/smsuraj100> |
+| Neerav Jain | jainneerav@ufl.edu | Frontend | <https://github.com/neeravjain24> |
+| Tanvi Jain | tjain@ufl.edu |  Backend | <https://github.com/tjain1715> |
 
 ## Project Description
 
@@ -29,8 +31,3 @@ Group project for Software-Engineering course (CEN5035)
 - React + Redux (For FrontEnd)
 - GoLang (for BackEnd)
 - MongoDb (Database)
-
-## Work-Distribution
-
-- FrontEnd: Srinivas Nishant, Neerav Jain, Suraj Mishra
-- BackEnd: Suraj Mishra, Tanvi Jain
