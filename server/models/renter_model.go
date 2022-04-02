@@ -1,6 +1,10 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Property struct {
 	Id        primitive.ObjectID `json:"id,omitempty"`
@@ -15,4 +19,18 @@ type Property struct {
 	NoOfSpace string             `json:"noofspace,omitempty" validate:"required"`
 	Latitude  float32            `json:"latitude,omitempty" validate:"required"`
 	Longitude float32            `json:"longitude,omitempty" validate:"required"`
+}
+
+type Location struct {
+	Id        primitive.ObjectID `json:"id,omitempty"`
+	UserId    string             `json:"userid"`
+	Latitude  float32            `json:"latitude"`
+	Longitude float32            `json:"longitude"`
+	StartDate time.Time          `json:"startdate"`
+}
+
+type Coordinates struct {
+	Id        primitive.ObjectID `json:"id,omitempty"`
+	Latitude  float32            `json:"latitude"`
+	Longitude float32            `json:"longitude"`
 }

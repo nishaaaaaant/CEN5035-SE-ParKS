@@ -10,7 +10,7 @@ import {
 } from "./styles";
 import AddressListBox from "./AddressListBox";
 
-const tempData = [
+export const tempData = [
   {
     address: {
       line1: "4000 SW 37th Blvd",
@@ -76,6 +76,7 @@ const BuyersPage = () => {
                 key={i}
                 data={ele}
                 handleOnContinueClick={handleOnContinueClick}
+                isCalledFromRenter={true}
               />
             );
           })}
