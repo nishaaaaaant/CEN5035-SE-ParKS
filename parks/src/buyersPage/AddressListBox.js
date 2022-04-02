@@ -15,6 +15,7 @@ const AddressListBox = (props) => {
       rate,
     },
     handleOnContinueClick,
+    isCalledFromRenter,
   } = props;
 
   return (
@@ -31,7 +32,9 @@ const AddressListBox = (props) => {
       </div>
       <RateContainer>
         <AddressLabel>Rate: {rate ? rate : 10}</AddressLabel>
-        <ContinueBtn onClick={handleOnContinueClick}>Continue</ContinueBtn>
+        {!isCalledFromRenter ? (
+          <ContinueBtn onClick={handleOnContinueClick}>Continue</ContinueBtn>
+        ) : null}
       </RateContainer>
     </AddressListBoxContainer>
   );
