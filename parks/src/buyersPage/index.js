@@ -76,7 +76,7 @@ const BuyersPage = () => {
                 key={i}
                 data={ele}
                 handleOnContinueClick={handleOnContinueClick}
-                isCalledFromRenter={true}
+                isCalledFromRenter={false}
               />
             );
           })}
@@ -90,15 +90,6 @@ const BuyersPage = () => {
       {renderNavbar()}
       {!flag ? (
         <BuyersContainer>
-          <div>
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Search a location"
-                aria-label="Search a location"
-              />
-              <InputGroup.Text id="basic-addon2">Search</InputGroup.Text>
-            </InputGroup>
-          </div>
           <BuyerDetailsContainer>
             {renderAddressList()}
             <BuyerMapContainer>

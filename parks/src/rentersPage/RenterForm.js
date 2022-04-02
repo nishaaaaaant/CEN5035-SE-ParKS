@@ -3,10 +3,12 @@ import Axios from "axios";
 import { useState } from "react";
 import { newUserAddNewAddress } from "./ActionCreators";
 import { useDispatch } from "react-redux";
-import { RentersForm, Name, TextInput, SubmitButton } from "./style"
+import { RentersForm, TextInput, SubmitButton, CancelButton } from "./style";
 
 function RenterForm(props) {
+  const { handleOnCancelClick } = props;
   const dispatch = useDispatch();
+
   const [data, setData] = useState({
     UserId: "",
     Address1: "",
@@ -58,7 +60,6 @@ function RenterForm(props) {
         ></TextInput>
         <TextInput
           onChange={(e) => handle(e)}
-          //   value={data.addressLine1}
           defaultValue={data.addressLine1}
           placeholder="Address Line 1"
           id="Address1"
@@ -120,7 +121,10 @@ function RenterForm(props) {
           id="NoOfSpace"
           required
         ></TextInput>
-        <SubmitButton>Submit</SubmitButton>
+        <div style={{ alignSelf: "flex-end", marginBottom: 10 }}>
+          <CancelButton onClick={handleOnCancelClick}>Cancel</CancelButton>
+          <SubmitButton onClick={submit}>Submit</SubmitButton>
+        </div>
       </RentersForm>
     </div>
   );

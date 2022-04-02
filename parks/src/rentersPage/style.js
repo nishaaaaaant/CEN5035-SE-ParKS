@@ -18,11 +18,44 @@ export const TextInput = styled.input`
 `;
 
 export const SubmitButton = styled.button`
-  width: 200px;
-  align-self: center;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  width: 120px;
   height: 50px;
+  padding: 10px;
+  font-size: 22px;
   background-color: #327528;
   color: white;
+  border-radius: 5px;
+  margin-right: 10px;
+`;
+
+export const CancelButton = styled.button`
+  width: 120px;
+  height: 50px;
+  padding: 10px;
+  font-size: 22px;
+  background-color: indianred;
+  color: white;
+  border-radius: 5px;
+  margin-right: 10px;
+`;
+
+export const ListOfAddrContainer = styled.div`
+  width: 70%;
+  border: 2px solid grey;
+  margin: 75px auto;
+  padding: 10px;
+`;
+
+export const NewAddNewAddrContainer = styled.div`
+  border-bottom: 2px solid grey;
+  cursor: pointer;
+`;
+
+export const AddIcon = styled.span`
+  margin-right: 10px;
+  cursor: pointer;
+`;
+
+export const AddAddrLabel = styled.label`
+  cursor: pointer;
 `;
