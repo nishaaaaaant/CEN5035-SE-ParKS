@@ -15,6 +15,7 @@ type Buyer struct {
 	NoOfSpace string             `json:"noofspace,omitempty" validate:"required"`
 	StartDate time.Time          `json:"startdate"`
 	EndDate   time.Time          `json:"enddate"`
+	Features  Feature            `json:"features" bson:"features"`
 }
 
 type BuyerInfo struct {

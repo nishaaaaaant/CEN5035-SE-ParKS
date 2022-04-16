@@ -45,13 +45,29 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 		Rate:      buyer.Rate,
 		StartDate: buyer.StartDate,
 		EndDate:   buyer.EndDate,
+		Features: models.Feature{
+			Type: buyer.Features.Type,
+			Properties: models.Properties{
+				Address1:  buyer.Features.Properties.Address1,
+				Address2:  buyer.Features.Properties.Address2,
+				City:      buyer.Features.Properties.City,
+				State:     buyer.Features.Properties.State,
+				Zip:       buyer.Features.Properties.Zip,
+				Mobile:    buyer.Features.Properties.Mobile,
+				Rate:      buyer.Features.Properties.Rate,
+				NoOfSpace: buyer.Features.Properties.NoOfSpace,
+			},
+			Geometry: models.Geometry{
+				Type:        buyer.Features.Geometry.Type,
+				Coordinates: buyer.Features.Geometry.Coordinates,
+			},
+		},
 	}
 
 	result, err := buyerCollection.InsertOne(ctx, newBuyerRecord)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
-
 	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
 }
 
@@ -138,7 +154,6 @@ func GetCartRecord(c *fiber.Ctx) error {
 }
 
 // GetCompletedBookings
-
 func GetCompletedBookings(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var buyerInfo models.BuyerInfo
