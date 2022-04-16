@@ -1,13 +1,14 @@
 import React, { lazy, Suspense, useState } from "react";
 import MyMap from "./MyMap";
 import RenterForm from "./RenterForm";
-import { tempData } from "../buyersPage";
 import {
   ListOfAddrContainer,
   NewAddNewAddrContainer,
   AddIcon,
   AddAddrLabel,
 } from "./style";
+
+import { geojson } from "../buyersPage/MyMap";
 
 const NavbarComponent = lazy(() => import("../common/navbar"));
 const AddressListBox = lazy(() => import("../buyersPage/AddressListBox"));
@@ -39,7 +40,7 @@ const RentersPage = () => {
           <AddIcon>+</AddIcon>
           <AddAddrLabel>Add new Address</AddAddrLabel>
         </NewAddNewAddrContainer>
-        {tempData.map((ele, i) => {
+        {geojson.features.map((ele, i) => {
           return (
             <AddressListBox
               key={i}
