@@ -22,5 +22,6 @@ func UserRoute(app *fiber.App) {
 	app.Get("/getallcoordinates", controllers.GetAllCoordinates)
 	app.Post("/getcartrecord", controllers.GetCartRecord)
 	app.Post("/getcompletedbookings", controllers.GetCompletedBookings)
-	app.Delete("/deleterenter", controllers.DeleteRenter)
+	app.Delete("/deleterenter/:renterId", controllers.DeleteRenter)
+	app.Put("/editrenterproperty/:renterId", controllers.EditRenterProperty)
 }
