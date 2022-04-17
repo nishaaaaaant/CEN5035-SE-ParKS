@@ -64,13 +64,13 @@ export const geojson = {
 };
 
 const MyMap = (props) => {
-  const { fetchMapRef } = props;
+  const { fetchMapRef, isCalledFrom, getLngLat } = props;
 
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-82.30639245200598);
   const [lat, setLat] = useState(29.659109059602912);
-  const [zoom, setZoom] = useState(12);
+  const [zoom, setZoom] = useState(11);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -94,44 +94,44 @@ const MyMap = (props) => {
 
     map.current.on("load", () => {
       /* Add the data to your map as a layer */
-      map.current.addLayer({
-        id: "locations",
-        type: "circle",
-        /* Add a GeoJSON source containing place coordinates and information. */
-        source: {
-          type: "geojson",
-          data: geojson,
-        },
+      map.current.addSource("places", {
+        type: "geojson",
+        data: geojson,
       });
     });
 
     map.current.on("move", () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(12));
+      setZoom(map.current.getZoom().toFixed(2));
     });
 
-    map.current.on("click", (e) => {
-      console.log(e.point);
-      console.log(e.lngLat);
-      addMarker(e);
-    });
+    if (isCalledFrom == "RENTER") {
+      map.current.on("click", (e) => {
+        const features = map.current.queryRenderedFeatures(e.point);
+        console.log(features);
+        console.log(e.point);
+        console.log(e.lngLat);
+        getLngLat(e.lngLat)
+        addMarker(e);
+      });
+    }
 
-    // for (const feature of geojson.features) {
-    //   // create a HTML element for each feature
-    //   const el = document.createElement("div");
-    //   el.className = "marker";
-    //   el.style.backgroundImage = `url(https://img.icons8.com/fluency/48/000000/marker-a.png)`;
-    //   el.style.width = `40px`;
-    //   el.style.height = `40px`;
-    //   el.style.backgroundSize = "100%";
-    //   console.log(map);
+    for (const feature of geojson.features) {
+      // create a HTML element for each feature
+      const el = document.createElement("div");
+      el.className = "marker";
+      el.style.backgroundImage = `url(https://img.icons8.com/fluency/48/000000/marker-a.png)`;
+      el.style.width = `40px`;
+      el.style.height = `40px`;
+      el.style.backgroundSize = "100%";
+      console.log(map);
 
-    //   // make a marker for each feature and add it to the map
-    //   new mapboxgl.Marker(el)
-    //     .setLngLat(feature.geometry.coordinates)
-    //     .addTo(map.current);
-    // }
+      // make a marker for each feature and add it to the map
+      new mapboxgl.Marker(el)
+        .setLngLat(feature.geometry.coordinates)
+        .addTo(map.current);
+    }
   });
 
   const addMarker = (event) => {

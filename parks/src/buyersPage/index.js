@@ -136,7 +136,7 @@ const BuyersPage = () => {
           <BuyerDetailsContainer>
             {renderAddressList()}
             <BuyerMapContainer>
-              <MyMap fetchMapRef={fetchMapRef} />
+              <MyMap fetchMapRef={fetchMapRef} isCalledFrom={'BUYER'} />
             </BuyerMapContainer>
           </BuyerDetailsContainer>
         </BuyersContainer>
