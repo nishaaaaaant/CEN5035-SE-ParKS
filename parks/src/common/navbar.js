@@ -4,7 +4,14 @@ import { useSelector } from "react-redux";
 
 // Style imports
 import { NavbarHome } from "./styles";
-import { Navbar, Nav, Container, Dropdown, ButtonGroup, Button } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Dropdown,
+  ButtonGroup,
+  Button,
+} from "react-bootstrap";
 import homeLogo from "../assets/logo.jpeg";
 
 const CommonNavBar = () => {
@@ -30,6 +37,8 @@ const CommonNavBar = () => {
 
   const handelOnRentersPage = () => navigate("/renter");
 
+  const handleOnUpdateUserClick = () => navigate("/update-user");
+
   return (
     <NavbarHome bg="dark" variant="dark">
       <Container>
@@ -51,13 +60,19 @@ const CommonNavBar = () => {
           ) : null}
           <Nav.Link onClick={handelOnRentersPage}>Renters</Nav.Link>
           <Nav.Link onClick={handelOnBuyersPage}>Buyers</Nav.Link>
-          <Nav.Link style={{position: "absolute", right: 54, top: 0}}>
-            <Dropdown as ={ButtonGroup}>
+          <Nav.Link style={{ position: "absolute", right: 54, top: 0 }}>
+            <Dropdown as={ButtonGroup}>
               <Button variant="success">Profile</Button>
-              <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
+              <Dropdown.Toggle
+                split
+                variant="success"
+                id="dropdown-split-basic"
+              />
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">User Booking</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Update Profile</Dropdown.Item>
+                <Dropdown.Item>User Booking</Dropdown.Item>
+                <Dropdown.Item onClick={handleOnUpdateUserClick}>
+                  Update Profile
+                </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
               </Dropdown.Menu>
