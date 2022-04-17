@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { RentersForm, TextInput, SubmitButton, CancelButton } from "./style";
 
 function RenterForm(props) {
-  const { handleOnCancelClick } = props;
+  const { handleOnCancelClick, lngLat } = props;
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
-    UserId: "",
+    PropertyName: "",
     Address1: "",
     Address2: "",
     City: "",
@@ -24,19 +24,31 @@ function RenterForm(props) {
   function submit(e) {
     e.preventDefault();
 
+    debugger
+
     const formData = {
-      UserId: data.UserId,
-      Address1: data.Address1,
-      Address2: data.Address2,
-      City: data.City,
-      State: data.State,
-      Zip: data.Zip,
-      Mobile: data.Mobile,
-      Rate: data.Rate,
-      NoOfSpace: data.NoOfSpace,
+      UserId: "62476408bed53e0ef1f17562",
+      Features: {
+        Type: "Point",
+        Properties: {
+          Address1: data.Address1,
+          Address2: data.Address2,
+          City: data.City,
+          State: data.State,
+          Zip: +data.Zip,
+          Mobile: +data.Mobile,
+          Rate: +data.Rate,
+          NoOfSpace: data.NoOfSpace,
+        },
+        Geometry: {
+          Type: "Point",
+          Coordinates: [lngLat.lat, lngLat.lng],
+        },
+      },
+      Type: "First",
     };
 
-    console.log(data);
+    console.log(JSON.stringify(data));
 
     // Call new user registraion API
     dispatch(newUserAddNewAddress(formData));
@@ -47,14 +59,15 @@ function RenterForm(props) {
     newdata[e.target.id] = e.target.value;
     setData(newdata);
   }
+
   return (
     <div>
       <RentersForm onSubmit={(e) => submit(e)}>
         <TextInput
           onChange={(e) => handle(e)}
-          placeholder="Name"
+          placeholder="Property Name"
           defaultValue={data.name}
-          id="UserId"
+          id="PropertyName"
           type="text"
           required
         ></TextInput>

@@ -15,19 +15,19 @@ export function newUserAddNewAddress(data) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
   };
-  console.log(data);
+  console.log(JSON.stringify(data));
   return (dispatch) => {
     dispatch(requestAddNewAddress());
     return axios
       .post(NEW_ADDRESS_API, data)
       .then((response) => {
+        debugger
         console.log(response);
-        alert("Registraion Successfull!!!");
-        dispatch(receiveAddNewAddress(response?.data));
+        alert("Successfully Added the location");
+        dispatch(receiveAddNewAddress(response?.data?.data?.data));
       })
       .catch((e) => {
-        console.log(e.response.status === 403);
-        alert("User is already registered!!!");
+        alert(e.message);
         dispatch(failureAddNewAddress(e.response.status === 403));
       });
   };

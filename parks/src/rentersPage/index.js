@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useState } from "react";
-import MyMap from "./MyMap";
+import React, { lazy, Suspense, useState, useRef } from "react";
+// import MyMap from "./MyMap";
 import RenterForm from "./RenterForm";
 import {
   ListOfAddrContainer,
@@ -8,7 +8,15 @@ import {
   AddAddrLabel,
 } from "./style";
 
+import MyMap from "../buyersPage/MyMap";
+
 import { geojson } from "../buyersPage/MyMap";
+
+import { MAPBOX_TOKEN } from "../constants";
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const NavbarComponent = lazy(() => import("../common/navbar"));
 const AddressListBox = lazy(() => import("../buyersPage/AddressListBox"));
@@ -22,14 +30,28 @@ const RentersPage = () => {
     );
   };
   const [flag, setFlag] = useState(false);
+  const [mapFlag, setMapFlag] = useState(true);
+  const [lngLat, setLngLat] = useState([0, 0]);
+
+  let map = useRef(null);
+
+  const fetchMapRef = (mapRef) => {
+    map = mapRef;
+  };
 
   const onNewClick = () => {
     setFlag(true);
   };
 
   const handleOnCancelClick = () => {
-    setFlag(false);
+    setMapFlag(true);
   };
+
+  const handleOnMapCancelClick = () => setFlag(false);
+
+  const handleOnselect = () => setMapFlag(false);
+
+  const getLngLat = (lngLat) => setLngLat(lngLat)
 
   const renderAddressList = () => {
     return (
@@ -54,14 +76,32 @@ const RentersPage = () => {
     );
   };
 
+  const renderRentersForm = () => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "33.33%" }}>{renderAddressList()}</div>
+        <div style={{ width: "66.66%" }}>
+          {mapFlag ? (
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <MyMap fetchMapRef={fetchMapRef} isCalledFrom={"RENTER"} getLngLat={getLngLat} />
+              <div style={{ display: "flex" }}>
+                <button onClick={handleOnselect}>Select</button>
+                <button onClick={handleOnMapCancelClick}>Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <RenterForm handleOnCancelClick={handleOnCancelClick} lngLat={lngLat} />
+          )}
+        </div>
+        {/* <RenterForm handleOnCancelClick={handleOnCancelClick} />; */}
+      </div>
+    );
+  };
+
   return (
     <div id="renterPageDiv">
       {renderNavbar()}
-      {!flag ? (
-        renderAddressList()
-      ) : (
-        <RenterForm handleOnCancelClick={handleOnCancelClick} />
-      )}
+      {!flag ? renderAddressList() : renderRentersForm()}
     </div>
   );
 };
