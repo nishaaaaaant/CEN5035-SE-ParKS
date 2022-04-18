@@ -21,3 +21,10 @@ export const receiveUserLogin = (payload) => ({
 export const failureUserLogin = () => ({
   type: types.FAILURE_USER_LOGIN,
 });
+
+/**
+ * @description Request action for logout
+ */
+export const requestUserLogout = () => ({
+  type: types.REQUEST_USER_LOGOUT,
+});

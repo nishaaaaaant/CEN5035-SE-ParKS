@@ -58,11 +58,12 @@ func AddNewAddress(c *fiber.Ctx) error {
 		Type: property.Type,
 	}
 	result, err := rentersCollection.InsertOne(ctx, newAddress)
+	print(result)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
 
-	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
+	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": newAddress}})
 }
 
 // Get all the rental property information

@@ -1,12 +1,11 @@
 import React from "react";
-import Axios from "axios";
 import { useState } from "react";
 import { newUserAddNewAddress } from "./ActionCreators";
 import { useDispatch } from "react-redux";
 import { RentersForm, TextInput, SubmitButton, CancelButton } from "./style";
 
 function RenterForm(props) {
-  const { handleOnCancelClick, lngLat } = props;
+  const { handleOnCancelClick, handleOnSubmitClick, lngLat } = props;
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -24,8 +23,6 @@ function RenterForm(props) {
   function submit(e) {
     e.preventDefault();
 
-    debugger
-
     const formData = {
       UserId: "62476408bed53e0ef1f17562",
       Features: {
@@ -42,7 +39,7 @@ function RenterForm(props) {
         },
         Geometry: {
           Type: "Point",
-          Coordinates: [lngLat.lat, lngLat.lng],
+          Coordinates: [lngLat.lng, lngLat.lat],
         },
       },
       Type: "First",
@@ -52,6 +49,7 @@ function RenterForm(props) {
 
     // Call new user registraion API
     dispatch(newUserAddNewAddress(formData));
+    handleOnSubmitClick();
   }
 
   function handle(e) {

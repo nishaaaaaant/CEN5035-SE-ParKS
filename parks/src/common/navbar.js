@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -13,11 +13,15 @@ import {
   Button,
 } from "react-bootstrap";
 import homeLogo from "../assets/logo.jpeg";
+import { getUserDetails, logout } from "./utils";
 
 const CommonNavBar = () => {
   let navigate = useNavigate();
 
-  const { isLoggedIn } = useSelector((state) => state.login);
+  const { loggedIn } = useSelector((state) => state.login);
+
+  const [firstName, setFirstName] = useState("");
+  const [isLoggedIn, setisLoggedIn] = useState(false);
 
   const handleOnLoginPage = () => {
     navigate("/login");
@@ -38,6 +42,12 @@ const CommonNavBar = () => {
   const handelOnRentersPage = () => navigate("/renter");
 
   const handleOnUpdateUserClick = () => navigate("/update-user");
+
+  useEffect(() => {
+    const userData = getUserDetails();
+    setFirstName(userData.firstName);
+    setisLoggedIn(userData.isLoggedIn === "true" ? true : false);
+  }, [loggedIn]);
 
   return (
     <NavbarHome bg="dark" variant="dark">
@@ -60,24 +70,26 @@ const CommonNavBar = () => {
           ) : null}
           <Nav.Link onClick={handelOnRentersPage}>Renters</Nav.Link>
           <Nav.Link onClick={handelOnBuyersPage}>Buyers</Nav.Link>
-          <Nav.Link style={{ position: "absolute", right: 54, top: 0 }}>
-            <Dropdown as={ButtonGroup}>
-              <Button variant="success">Profile</Button>
-              <Dropdown.Toggle
-                split
-                variant="success"
-                id="dropdown-split-basic"
-              />
-              <Dropdown.Menu>
-                <Dropdown.Item>User Booking</Dropdown.Item>
-                <Dropdown.Item onClick={handleOnUpdateUserClick}>
-                  Update Profile
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav.Link>
+          {isLoggedIn ? (
+            <Nav.Link style={{ position: "absolute", right: 54, top: 0 }}>
+              <Dropdown as={ButtonGroup}>
+                <Button variant="success">{firstName}</Button>
+                <Dropdown.Toggle
+                  split
+                  variant="success"
+                  id="dropdown-split-basic"
+                />
+                <Dropdown.Menu>
+                  <Dropdown.Item>User Booking</Dropdown.Item>
+                  <Dropdown.Item onClick={handleOnUpdateUserClick}>
+                    Update Profile
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav.Link>
+          ) : null}
         </Nav>
       </Container>
     </NavbarHome>

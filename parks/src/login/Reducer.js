@@ -3,7 +3,7 @@ import {REQUEST_USER_UPDATE, RECEIVE_USER_UPDATE, FAILURE_USER_UPDATE} from '../
 
 const defaultState = {
   userData: [],
-  isLoggedIn: false,
+  loggedIn: false,
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -23,7 +23,7 @@ const LoginReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: true,
-        isLoggedIn: true,
+        loggedIn: true,
         userData: action.payload,
       };
     case actionTypes.FAILURE_USER_LOGIN:
@@ -31,7 +31,7 @@ const LoginReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: false,
-        isLoggedIn: false,
+        loggedIn: false,
         isError: true,
       };
       case REQUEST_USER_UPDATE:
@@ -54,6 +54,11 @@ const LoginReducer = function (state = defaultState, action) {
         isFetching: false,
         isSuccess: false,
         isError: true,
+      };
+    case actionTypes.REQUEST_USER_LOGOUT:
+      return {
+        ...state,
+        loggedIn: false,
       };
     default:
       return state;
