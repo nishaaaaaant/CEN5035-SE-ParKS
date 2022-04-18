@@ -21,7 +21,7 @@ const RenterPageReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: true,
-        addressData: action.payload,
+        addressData: [...state.addressData, { ...action.payload }],
       };
     case actionTypes.FAILURE_ADD_NEW_ADDRESS:
       return {
@@ -29,7 +29,27 @@ const RenterPageReducer = function (state = defaultState, action) {
         isFetching: false,
         isSuccess: false,
         isError: true,
-        // isUserRegistered: action.payload,
+      };
+    case actionTypes.REQUEST_ALL_ADDRESSES:
+      return {
+        ...state,
+        isFetching: true,
+        isSuccess: false,
+        isError: false,
+      };
+    case actionTypes.RECEIVE_ALL_ADDRESSES:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: true,
+        addressData: action.payload,
+      };
+    case actionTypes.FAILURE_ALL_ADDRESSES:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: false,
+        isError: true,
       };
     default:
       return state;

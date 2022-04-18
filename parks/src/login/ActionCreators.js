@@ -5,6 +5,8 @@ import {
   failureUserLogin,
 } from "./Actions";
 
+import { setUserDetails } from "../common/utils";
+
 import { LOGIN_API } from "../constants";
 
 /**
@@ -15,15 +17,17 @@ export function newUserLogin(data) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
   };
-  debugger;
-  console.log(data);
   return (dispatch) => {
     dispatch(requestUserLogin());
     return axios
       .post(LOGIN_API, data, { headers })
       .then((response) => {
-        console.log(response);
         alert("Login Successfull!!!");
+        setUserDetails(
+          true,
+          response?.data?.data?.data?.id,
+          response?.data?.data?.data?.Firstname
+        );
         dispatch(receiveUserLogin(response?.data?.data?.data));
       })
       .catch((e) => {

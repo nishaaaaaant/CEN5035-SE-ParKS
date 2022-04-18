@@ -1,22 +1,14 @@
-import React, { lazy, Suspense, useState, useEffect } from "react";
-// import { Form } from "react-bootstrap";
-
-// import { LoginContainer, LoginForm, SubmitBtn } from "./styles";
-
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userUpdate } from "./ActionCreators";
-import { UserDateDiv, EditUserDataDiv } from "./style"
-
-const NavbarComponent = lazy(() => import("../common/navbar"));
+import { UserDateDiv, EditUserDataDiv } from "./style";
 
 const Login = () => {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
 
   const {
-    isSuccess,
-    isFetching,
+    // isSuccess,
+    // isFetching,
     userData: { id, email, firstname, lastname, password },
   } = useSelector((state) => state.login);
   const [firstName, setFirstName] = useState("");
@@ -31,14 +23,6 @@ const Login = () => {
     setEmailId(email);
     setPswd(password);
   }, [firstname, lastname, email, password]);
-
-  const renderNavbar = () => {
-    return (
-      <Suspense fallback={""}>
-        <NavbarComponent />
-      </Suspense>
-    );
-  };
 
   const handleOnFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -140,12 +124,7 @@ const Login = () => {
     </UserDateDiv>
   );
 
-  return (
-    <>
-      {renderNavbar()}
-      {editFlag ? renderUpdateUserForm() : renderUserDetails()}
-    </>
-  );
+  return <>{editFlag ? renderUpdateUserForm() : renderUserDetails()}</>;
 };
 
 export default React.memo(Login);

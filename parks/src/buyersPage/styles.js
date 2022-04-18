@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const BuyersContainer = styled.div`
-  margin-top: 70px;
   display: "flex";
   flex-direction: "column";
   height: 100vh;
@@ -14,12 +13,13 @@ export const BuyerDetailsContainer = styled.div`
 `;
 
 export const BuyerListContainer = styled.div`
-  width: 30%;
-  margin-right: 20px;
+  width: 33.33%;
+  height: 100%;
+  overflow-y: scroll;
 `;
 
 export const BuyerMapContainer = styled.div`
-  width: 70%;
+  width: 66.66%;
   height: 100%;
 `;
 
