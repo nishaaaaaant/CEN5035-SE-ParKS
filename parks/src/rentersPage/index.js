@@ -90,8 +90,10 @@ const RentersPage = () => {
 
   const renderRentersForm = () => {
     return (
-      <div style={{ display: "flex", marginTop: 10 }}>
-        <div style={{ width: "33.33%" }}>{renderAddressList()}</div>
+      <div style={{ display: "flex", marginTop: 10, height: "100%" }}>
+        <div style={{ width: "33.33%", height: "100%", overflowY: "scroll" }}>
+          {renderAddressList()}
+        </div>
         <div style={{ width: "66.66%" }}>
           {mapFlag ? (
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -120,7 +122,7 @@ const RentersPage = () => {
   };
 
   return (
-    <div id="renterPageDiv">
+    <div id="renterPageDiv" style={{ height: "100%" }}>
       {!flag ? renderAddressList() : renderRentersForm()}
     </div>
   );

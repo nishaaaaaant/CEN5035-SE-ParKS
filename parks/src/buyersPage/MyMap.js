@@ -69,7 +69,6 @@ const MyMap = (props) => {
         el.style.width = `40px`;
         el.style.height = `40px`;
         el.style.backgroundSize = "100%";
-        console.log(map);
 
         // make a marker for each feature and add it to the map
         new mapboxgl.Marker(el)
@@ -77,7 +76,7 @@ const MyMap = (props) => {
           .addTo(map.current);
       }
     }
-  }, [features, fetchMapRef, getLngLat, isCalledFrom, lat, lng, zoom]);
+  });
 
   const addMarker = (event) => {
     // create a HTML element for each feature
