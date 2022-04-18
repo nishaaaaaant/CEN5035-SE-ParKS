@@ -7,9 +7,28 @@ import {
   CancelButton,
   BookNowButton,
 } from "./styles";
+import { getUserDetails } from "../common/utils";
 
 const SlotBooking = (props) => {
-  const { handleonCancelClick } = props;
+  const { handleonCancelClick, selectedLocation } = props;
+  console.log(selectedLocation)
+
+  const handelOnBookNow = () =>{
+    const userData = getUserDetails();
+    console.log(selectedLocation)
+    const data = {
+      UserId: userData.userId,
+      RenterId: selectedLocation.id,
+      NoOfSpace: selectedLocation.NoOfSpace,
+      Rate: selectedLocation.Rate,
+      StartDate: selectedLocation.StartDate,
+      EndDate: selectedLocation.EndDate,
+      StartTime: selectedLocation.StartTime,
+      EndTime: selectedLocation.EndTime,
+      Feature: selectedLocation.Feature,
+    };
+  };
+  //handle On book now func{data = {}}
 
   return (
     <div style={{ marginTop: 70, display: "flex", flexDirection: "column" }}>
@@ -54,7 +73,7 @@ const SlotBooking = (props) => {
       </SlotContainer>
       <ButtonContainer>
         <CancelButton onClick={handleonCancelClick}>Cancel</CancelButton>
-        <BookNowButton>Book Now</BookNowButton>
+        <BookNowButton onClick={handelOnBookNow}>Book Now</BookNowButton>
       </ButtonContainer>
     </div>
   );
