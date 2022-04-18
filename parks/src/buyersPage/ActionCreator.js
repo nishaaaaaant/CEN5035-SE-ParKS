@@ -22,7 +22,7 @@ export function userBookNow(data) {
       .post(BOOK_NOW_API, data, { headers })
       .then((response) => {
         console.log(response);
-        alert("Update Successfully!!");
+        alert("Booking Done Successfully!!");
         dispatch(receiveUserBookNow(response?.data?.data?.data));
       })
       .catch((e) => {
