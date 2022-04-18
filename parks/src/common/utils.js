@@ -1,8 +1,6 @@
 import { requestUserLogout } from "../login/Actions";
-// import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import store from "../store";
-
-// let dispatch = useDispatch();
 
 export const setUserDetails = (isLoggedIn, userId, firstName) => {
   localStorage.setItem("isLoggedIn", isLoggedIn);
@@ -22,4 +20,5 @@ export const logout = () => {
   localStorage.setItem("userId", "");
   localStorage.setItem("firstName", "");
   store.dispatch(requestUserLogout());
+  // <NavLink to="/" />;
 };
