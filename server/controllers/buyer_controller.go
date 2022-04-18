@@ -21,6 +21,7 @@ var renterCollection *mongo.Collection = configs.GetCollection(configs.DB, "rent
 var buyerValidate = validator.New()
 var renterValidate = validator.New()
 
+// Add a new buyer entry for Wishlist/upcoming entry
 func AddNewBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var buyer models.Buyer
@@ -45,6 +46,8 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 		Rate:      buyer.Rate,
 		StartDate: buyer.StartDate,
 		EndDate:   buyer.EndDate,
+		StartTime: buyer.StartTime,
+		EndTime:   buyer.EndTime,
 		Features: models.Feature{
 			Type: buyer.Features.Type,
 			Properties: models.Properties{
