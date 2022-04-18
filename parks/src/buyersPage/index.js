@@ -22,6 +22,7 @@ const SlotBooking = lazy(() => import("./SlotBooking"));
 const BuyersPage = () => {
   let map = useRef(null);
   let dispatch = useDispatch();
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const {
     // isSuccess,
@@ -66,7 +67,7 @@ const BuyersPage = () => {
   const handleOnAddressListClick = (feature) => {
     flyToLocation(feature);
     displayPopup(feature);
-
+    setSelectedLocation(feature);
     // const activeItem = document.getElementsByClassName("active");
     // if (activeItem[0]) {
     //   activeItem[0].classList.remove("active");
@@ -116,7 +117,7 @@ const BuyersPage = () => {
           </BuyerDetailsContainer>
         </BuyersContainer>
       ) : (
-        <SlotBooking handleonCancelClick={handleonCancelClick} />
+        <SlotBooking handleonCancelClick={handleonCancelClick} selectedLocation={selectedLocation} />
       )}
     </div>
   );

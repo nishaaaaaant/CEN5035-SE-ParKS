@@ -9,6 +9,7 @@ export const UserDateDiv = styled.div`
   padding: 20px;
   font-size: 24px;
   border-radius: 15px;
+  margin-top: 10px;
 `;
 
 export const EditUserDataDiv = styled.div`

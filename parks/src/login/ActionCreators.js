@@ -26,7 +26,7 @@ export function newUserLogin(data) {
         setUserDetails(
           true,
           response?.data?.data?.data?.id,
-          response?.data?.data?.data?.Firstname
+          response?.data?.data?.data?.firstname
         );
         dispatch(receiveUserLogin(response?.data?.data?.data));
       })
