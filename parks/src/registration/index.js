@@ -1,10 +1,8 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import { RegisterDiv, RegisterForm } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { newUserRegistraion } from "./ActionCreators";
-
-const NavbarComponent = lazy(() => import("../common/navbar"));
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -24,19 +22,6 @@ const RegisterPage = () => {
       navigate("/login");
     }
   }, [isFetching, isSuccess, isUserRegistered, navigate]);
-
-  // const responseGoogle = (response) => {
-  //   console.log(response);
-  //   console.log(response.profileObj);
-  // };
-
-  const renderNavbar = () => {
-    return (
-      <Suspense fallback={""}>
-        <NavbarComponent />
-      </Suspense>
-    );
-  };
 
   const handleOnLoginPage = () => {
     navigate("/login");
@@ -75,9 +60,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      {renderNavbar()}
-
-      <RegisterDiv id ="registrationPageDiv">
+      <RegisterDiv id="registrationPageDiv">
         <RegisterForm>
           <h3>Sign Up</h3>
           <div className="form-group">

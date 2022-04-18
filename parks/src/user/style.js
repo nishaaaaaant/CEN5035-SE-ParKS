@@ -6,7 +6,6 @@ export const UserDateDiv = styled.div`
   width: 50%;
   border: 2px solid grey;
   margin: 0 auto;
-  margin-top: 70px;
   padding: 20px;
   font-size: 24px;
   border-radius: 15px;
@@ -19,5 +18,4 @@ export const EditUserDataDiv = styled.div`
   border-radius: 15px;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 70px;
 `;

@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const RentersForm = styled.form`
-  width: 70%;
-  margin-top: 70px !important;
+  width: 100%;
   display: flex;
   flex-direction: column;
   border: 2px solid grey;
@@ -40,10 +39,8 @@ export const CancelButton = styled.button`
 `;
 
 export const ListOfAddrContainer = styled.div`
-  width: 70%;
-  border: 2px solid grey;
-  margin: 75px auto;
-  padding: 10px;
+  width: 100%;
+  padding: 0 10px;
 `;
 
 export const NewAddNewAddrContainer = styled.div`

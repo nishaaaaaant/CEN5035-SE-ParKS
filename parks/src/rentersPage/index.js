@@ -1,5 +1,6 @@
-import React, { lazy, Suspense, useState, useRef } from "react";
-// import MyMap from "./MyMap";
+import React, { lazy, useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllAddresses } from "./ActionCreators";
 import RenterForm from "./RenterForm";
 import {
   ListOfAddrContainer,
@@ -10,30 +11,32 @@ import {
 
 import MyMap from "../buyersPage/MyMap";
 
-import { geojson } from "../buyersPage/MyMap";
-
 import { MAPBOX_TOKEN } from "../constants";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-const NavbarComponent = lazy(() => import("../common/navbar"));
 const AddressListBox = lazy(() => import("../buyersPage/AddressListBox"));
 
 const RentersPage = () => {
-  const renderNavbar = () => {
-    return (
-      <Suspense fallback={""}>
-        <NavbarComponent />
-      </Suspense>
-    );
-  };
+  let dispatch = useDispatch();
+
+  const {
+    isSuccess,
+    isError,
+    //  isFetching,
+    addressData,
+  } = useSelector((state) => state.rentersInfo);
+
   const [flag, setFlag] = useState(false);
   const [mapFlag, setMapFlag] = useState(true);
   const [lngLat, setLngLat] = useState([0, 0]);
 
   let map = useRef(null);
+
+  useEffect(() => {
+    dispatch(fetchAllAddresses());
+  }, [dispatch]);
 
   const fetchMapRef = (mapRef) => {
     map = mapRef;
@@ -47,11 +50,18 @@ const RentersPage = () => {
     setMapFlag(true);
   };
 
+  const handleOnSubmitClick = () => {
+    if (isSuccess && !isError) {
+      setFlag(false);
+      setMapFlag(true);
+    }
+  };
+
   const handleOnMapCancelClick = () => setFlag(false);
 
   const handleOnselect = () => setMapFlag(false);
 
-  const getLngLat = (lngLat) => setLngLat(lngLat)
+  const getLngLat = (lngLat) => setLngLat(lngLat);
 
   const renderAddressList = () => {
     return (
@@ -62,35 +72,46 @@ const RentersPage = () => {
           <AddIcon>+</AddIcon>
           <AddAddrLabel>Add new Address</AddAddrLabel>
         </NewAddNewAddrContainer>
-        {geojson.features.map((ele, i) => {
-          return (
-            <AddressListBox
-              key={i}
-              data={ele}
-              handleOnContinueClick={null}
-              isCalledFromRenter={true}
-            />
-          );
-        })}
+        {addressData &&
+          addressData.length &&
+          addressData.map((ele, i) => {
+            return (
+              <AddressListBox
+                key={i}
+                data={ele}
+                handleOnContinueClick={null}
+                isCalledFromRenter={true}
+              />
+            );
+          })}
       </ListOfAddrContainer>
     );
   };
 
   const renderRentersForm = () => {
     return (
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginTop: 10 }}>
         <div style={{ width: "33.33%" }}>{renderAddressList()}</div>
         <div style={{ width: "66.66%" }}>
           {mapFlag ? (
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <MyMap fetchMapRef={fetchMapRef} isCalledFrom={"RENTER"} getLngLat={getLngLat} />
+              <MyMap
+                fetchMapRef={fetchMapRef}
+                isCalledFrom={"RENTER"}
+                getLngLat={getLngLat}
+                features={null}
+              />
               <div style={{ display: "flex" }}>
                 <button onClick={handleOnselect}>Select</button>
                 <button onClick={handleOnMapCancelClick}>Cancel</button>
               </div>
             </div>
           ) : (
-            <RenterForm handleOnCancelClick={handleOnCancelClick} lngLat={lngLat} />
+            <RenterForm
+              handleOnCancelClick={handleOnCancelClick}
+              handleOnSubmitClick={handleOnSubmitClick}
+              lngLat={lngLat}
+            />
           )}
         </div>
         {/* <RenterForm handleOnCancelClick={handleOnCancelClick} />; */}
@@ -100,7 +121,6 @@ const RentersPage = () => {
 
   return (
     <div id="renterPageDiv">
-      {renderNavbar()}
       {!flag ? renderAddressList() : renderRentersForm()}
     </div>
   );

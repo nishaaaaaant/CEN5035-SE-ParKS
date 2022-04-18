@@ -11,7 +11,9 @@ import {
 const AddressListBox = (props) => {
   const {
     data: {
-      properties: { address, city, state, country },
+      features: {
+        properties: { address1, address2, city, state },
+      },
     },
     handleOnContinueClick,
     isCalledFromRenter,
@@ -21,12 +23,12 @@ const AddressListBox = (props) => {
   return (
     <AddressListBoxContainer onClick={onClick}>
       <div>
-        <AddressLabel>{address ? address : "Hii"},</AddressLabel>
+        <AddressLabel>{address1 ? address1 : "Hii"},</AddressLabel>
+        <AddressLabel>{address2 ? address2 : "Hii"},</AddressLabel>
       </div>
       <div>
         <AddressLabel>{city ? city : "hii"}, </AddressLabel>
         <AddressLabel>{state ? state : "hii"}, </AddressLabel>
-        <AddressLabel>{country ? country : "hii"}</AddressLabel>
       </div>
       <RateContainer>
         {!isCalledFromRenter ? (

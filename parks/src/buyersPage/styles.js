@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const BuyersContainer = styled.div`
-  margin-top: 70px;
   display: "flex";
   flex-direction: "column";
   height: 100vh;

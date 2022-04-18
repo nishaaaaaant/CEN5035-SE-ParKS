@@ -6,65 +6,8 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-export const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-82.35567926614124, 29.637935786805258],
-      },
-      properties: {
-        phoneFormatted: "(202) 234-7336",
-        phone: "2022347336",
-        address: "11",
-        city: "Washington DC",
-        country: "United States",
-        crossStreet: "at 15th St NW",
-        postalCode: "20005",
-        state: "D.C.",
-      },
-    },
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-82.27658364702006, 29.686262167260267],
-      },
-      properties: {
-        phoneFormatted: "(202) 234-7336",
-        phone: "2022347336",
-        address: "12",
-        city: "Washington DC",
-        country: "United States",
-        crossStreet: "at 15th St NW",
-        postalCode: "20005",
-        state: "D.C.",
-      },
-    },
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-82.30965671462707, 29.65370402486431],
-      },
-      properties: {
-        phoneFormatted: "(202) 234-7336",
-        phone: "2022347336",
-        address: "13",
-        city: "Washington DC",
-        country: "United States",
-        crossStreet: "at 15th St NW",
-        postalCode: "20005",
-        state: "D.C.",
-      },
-    },
-  ],
-};
-
 const MyMap = (props) => {
-  const { fetchMapRef, isCalledFrom, getLngLat } = props;
+  const { fetchMapRef, isCalledFrom, getLngLat, features } = props;
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -96,7 +39,7 @@ const MyMap = (props) => {
       /* Add the data to your map as a layer */
       map.current.addSource("places", {
         type: "geojson",
-        data: geojson,
+        data: features,
       });
     });
 
@@ -106,33 +49,35 @@ const MyMap = (props) => {
       setZoom(map.current.getZoom().toFixed(2));
     });
 
-    if (isCalledFrom == "RENTER") {
+    if (isCalledFrom === "RENTER") {
       map.current.on("click", (e) => {
         const features = map.current.queryRenderedFeatures(e.point);
         console.log(features);
         console.log(e.point);
         console.log(e.lngLat);
-        getLngLat(e.lngLat)
+        getLngLat(e.lngLat);
         addMarker(e);
       });
     }
 
-    for (const feature of geojson.features) {
-      // create a HTML element for each feature
-      const el = document.createElement("div");
-      el.className = "marker";
-      el.style.backgroundImage = `url(https://img.icons8.com/fluency/48/000000/marker-a.png)`;
-      el.style.width = `40px`;
-      el.style.height = `40px`;
-      el.style.backgroundSize = "100%";
-      console.log(map);
+    if (isCalledFrom === "BUYER") {
+      for (const feature of features) {
+        // create a HTML element for each feature
+        const el = document.createElement("div");
+        el.className = "marker";
+        el.style.backgroundImage = `url(https://img.icons8.com/fluency/48/000000/marker-a.png)`;
+        el.style.width = `40px`;
+        el.style.height = `40px`;
+        el.style.backgroundSize = "100%";
+        console.log(map);
 
-      // make a marker for each feature and add it to the map
-      new mapboxgl.Marker(el)
-        .setLngLat(feature.geometry.coordinates)
-        .addTo(map.current);
+        // make a marker for each feature and add it to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(feature.features.geometry.coordinates)
+          .addTo(map.current);
+      }
     }
-  });
+  }, [features, fetchMapRef, getLngLat, isCalledFrom, lat, lng, zoom]);
 
   const addMarker = (event) => {
     // create a HTML element for each feature
@@ -145,24 +90,6 @@ const MyMap = (props) => {
 
     // make a marker for each feature and add it to the map
     new mapboxgl.Marker(el).setLngLat(event.lngLat).addTo(map.current);
-  };
-
-  const flyToLocation = (location) => {
-    map.current.flyTo({
-      center: location.geometry.coordinates,
-      zoom: 15,
-    });
-  };
-
-  const displayPopup = (location) => {
-    const popUps = document.getElementsByClassName("mapboxgl-popup");
-    /** Check if there is already a popup on the map and if so, remove it */
-    if (popUps[0]) popUps[0].remove();
-
-    const popup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(location.geometry.coordinates)
-      .setHTML(`<h3>Location No:</h3><h4>${location.properties.address}</h4>`)
-      .addTo(map.current);
   };
 
   return (
