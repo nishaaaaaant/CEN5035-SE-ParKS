@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import ReactTimeslotCalendar from "react-timeslot-calendar";
+import { useSelector, useDispatch } from "react-redux";
 import {
   SlotContainer,
   ButtonContainer,
@@ -8,25 +9,28 @@ import {
   BookNowButton,
 } from "./styles";
 import { getUserDetails } from "../common/utils";
+import { userBookNow } from "./ActionCreator";
 
 const SlotBooking = (props) => {
   const { handleonCancelClick, selectedLocation } = props;
-  console.log(selectedLocation)
+  let dispatch = useDispatch();
+  console.log(selectedLocation);
 
-  const handelOnBookNow = () =>{
+  const handelOnBookNow = () => {
     const userData = getUserDetails();
-    console.log(selectedLocation)
     const data = {
       UserId: userData.userId,
       RenterId: selectedLocation.id,
-      NoOfSpace: selectedLocation.NoOfSpace,
-      Rate: selectedLocation.Rate,
-      StartDate: selectedLocation.StartDate,
-      EndDate: selectedLocation.EndDate,
-      StartTime: selectedLocation.StartTime,
-      EndTime: selectedLocation.EndTime,
-      Feature: selectedLocation.Feature,
+      NoOfSpace: 2,
+      Rate: 10,
+      StartDate: new Date(),
+      EndDate: new Date(),
+      StartTime: "12",
+      EndTime: "1",
+      Feature: selectedLocation.features,
     };
+    console.log(data);
+    dispatch(userBookNow(data));
   };
   //handle On book now func{data = {}}
 

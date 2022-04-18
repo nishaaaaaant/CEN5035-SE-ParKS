@@ -17,9 +17,9 @@ export function userBookNow(data) {
   };
   return (dispatch) => {
     dispatch(requestUserBookNow());
-    const url = `${BOOK_NOW_API}/${data.id}`
+    // const url = `${BOOK_NOW_API`
     return axios
-      .put(url, data, { headers })
+      .post(BOOK_NOW_API, data, { headers })
       .then((response) => {
         console.log(response);
         alert("Update Successfully!!");
