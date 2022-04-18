@@ -1,48 +1,30 @@
-import React from "react";
-import moment from "moment";
-import ReactTimeslotCalendar from "react-timeslot-calendar";
+import React, {useState} from "react";
+// import moment from "moment";
+// import ReactTimeslotCalendar from "react-timeslot-calendar";
+import DatePicker from "react-datepicker";
+import { timeslots } from "../constants";
 import {
   SlotContainer,
   ButtonContainer,
   CancelButton,
   BookNowButton,
+  Flex,
 } from "./styles";
+
+import { Dropdown } from "react-bootstrap";
 
 const SlotBooking = (props) => {
   const { handleonCancelClick } = props;
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   return (
-    <div style={{ marginTop: 70, display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <SlotContainer id="slots">
-        <ReactTimeslotCalendar
+        {/* <ReactTimeslotCalendar
           initialDate={moment().format("YYYY-MM-DD")}
-          let
-          timeslots={[
-            ["1", "2"], // 1:00 AM - 2:00 AM
-            ["2", "3"],
-            ["3", "4"],
-            ["4", "5"],
-            ["5", "6"],
-            ["6", "7"],
-            ["7", "8"],
-            ["8", "9"],
-            ["9", "10"],
-            ["10", "11"],
-            ["11", "12"],
-            ["12", "13"],
-            ["13", "14"],
-            ["14", "15"],
-            ["15", "16"],
-            ["16", "17"],
-            ["17", "18"],
-            ["18", "19"],
-            ["19", "20"],
-            ["20", "21"],
-            ["21", "22"],
-            ["22", "23"],
-            ["23", "24"],
-            ["24", "1"],
-          ]}
+          
           onSelectTimeslot={(timeslots, lastSelected) => {
             console.log("All Timeslots:");
             console.log(timeslots);
@@ -50,7 +32,33 @@ const SlotBooking = (props) => {
             console.log("Last selected timeslot:");
             console.log(lastSelected);
           }}
-        />
+        /> */}
+
+        <Flex>
+          <label>Continue Booking:</label>
+          <Flex>
+            <label>Select Date:</label>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              // onCalendarClose={handleCalendarClose}
+              // onCalendarOpen={handleCalendarOpen}
+            />
+          </Flex>
+          <Flex>
+            <label>Select Slot:</label>
+            <Dropdown>
+              <Dropdown.Toggle id="slots-list">Select Slots</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {timeslots.map((ele, i) => (
+                  <Dropdown.Item
+                    key={i}
+                  >{`${ele[0]} - ${ele[1]}`}</Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Flex>
+        </Flex>
       </SlotContainer>
       <ButtonContainer>
         <CancelButton onClick={handleonCancelClick}>Cancel</CancelButton>

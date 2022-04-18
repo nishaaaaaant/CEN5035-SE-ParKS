@@ -98,3 +98,7 @@ export const RateContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const Flex = styled.div`
+  display: flex;
+`;
