@@ -197,3 +197,45 @@ func GetCompletedBookings(c *fiber.Ctx) error {
 		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": buyers}},
 	)
 }
+
+// Get the booked slots for a single day
+func GetBookedSlots(c *fiber.Ctx) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var buyerInfo models.BuyerInfo
+	var buyers []models.Buyer
+	defer cancel()
+
+	//validate the request body
+	if err := c.BodyParser(&buyerInfo); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	// use the validator library to validate required fields
+	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
+	}
+	// if buyerInfo.RenterId == "" {
+	// 	println(buyerInfo.RenterId)
+	// }
+	results, err := buyerCollection.Find(ctx, bson.M{"renterid": buyerInfo.RenterId, "flag": "upcoming", "startdate": buyerInfo.StartDate})
+
+	println(results)
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	//reading from the db in an optimal way
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var buyerRecord models.Buyer
+		if err = results.Decode(&buyerRecord); err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+		buyers = append(buyers, buyerRecord)
+	}
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": buyers}},
+	)
+}

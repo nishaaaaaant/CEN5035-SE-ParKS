@@ -21,8 +21,9 @@ type Buyer struct {
 }
 
 type BuyerInfo struct {
-	Id       primitive.ObjectID `json:"id,omitempty"`
-	UserId   string             `json:"userid,omitempty" validate:"required"`
-	RenterId string             `json:"renterid"`
-	Flag     string             `json:"flag"`
+	Id        primitive.ObjectID `json:"id,omitempty"`
+	UserId    string             `json:"userid,omitempty"`
+	RenterId  string             `json:"renterid"`
+	Flag      string             `json:"flag"`
+	StartDate time.Time          `json:"startdate"`
 }
