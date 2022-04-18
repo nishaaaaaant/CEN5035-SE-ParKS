@@ -24,4 +24,5 @@ func UserRoute(app *fiber.App) {
 	app.Post("/getcompletedbookings", controllers.GetCompletedBookings)
 	app.Delete("/deleterenter/:renterId", controllers.DeleteRenter)
 	app.Put("/editrenterproperty/:renterId", controllers.EditRenterProperty)
+	app.Post("/getbookedslots", controllers.GetBookedSlots)
 }
