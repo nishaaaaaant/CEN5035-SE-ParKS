@@ -6,9 +6,17 @@ import {
   requestAllAddresses,
   receiveAllAddresses,
   failureAllAddresses,
+  requestRentedAddresses,
+  receiveRentedAddresses,
+  failureRentedAddresses,
 } from "./Action";
 
-import { NEW_ADDRESS_API, ALL_ADDRESS_API } from "../constants";
+import {
+  NEW_ADDRESS_API,
+  ALL_ADDRESS_API,
+  RENTED_ADDRESSES_API,
+} from "../constants";
+import { getUserDetails } from "../common/utils";
 
 /**
  * @description Add new address API
@@ -50,6 +58,29 @@ export function fetchAllAddresses() {
       .catch((e) => {
         console.log(e.message);
         dispatch(failureAllAddresses(e.response.status === 403));
+      });
+  };
+}
+
+/**
+ * @description Fetch rented addresses by loggedIn user
+ * @param {} dispatch
+ */
+export function fetchRentedAddresses() {
+  const data = {
+    UserId: getUserDetails().userId,
+  };
+  return (dispatch) => {
+    dispatch(requestRentedAddresses());
+    return axios
+      .post(RENTED_ADDRESSES_API, data)
+      .then((response) => {
+        console.log(response);
+        dispatch(receiveRentedAddresses(response?.data?.data?.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(failureRentedAddresses(e.response.status === 403));
       });
   };
 }

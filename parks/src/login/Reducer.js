@@ -1,9 +1,15 @@
 import * as actionTypes from "./ActionTypes";
-import {REQUEST_USER_UPDATE, RECEIVE_USER_UPDATE, FAILURE_USER_UPDATE} from '../user/ActionTypes'
+import {
+  REQUEST_USER_UPDATE,
+  RECEIVE_USER_UPDATE,
+  FAILURE_USER_UPDATE,
+} from "../user/ActionTypes";
+
+const initStatus = localStorage.getItem("isLoggedIn") === "true" ? true : false;
 
 const defaultState = {
   userData: [],
-  loggedIn: false,
+  loggedIn: initStatus,
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -34,7 +40,7 @@ const LoginReducer = function (state = defaultState, action) {
         loggedIn: false,
         isError: true,
       };
-      case REQUEST_USER_UPDATE:
+    case REQUEST_USER_UPDATE:
       return {
         ...state,
         isFetching: true,
@@ -59,6 +65,7 @@ const LoginReducer = function (state = defaultState, action) {
       return {
         ...state,
         loggedIn: false,
+        isSuccess: false,
       };
     default:
       return state;
