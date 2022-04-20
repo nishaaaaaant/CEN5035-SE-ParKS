@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-
+	"os"
 	"parks/m/v2/configs"
 	"parks/m/v2/routes"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -19,6 +20,11 @@ func main() {
 	configs.ConnectDB()
 
 	routes.UserRoute(app)
+	port := os.Getenv("PORT")
 
-	app.Listen(":8080")
+	if port == "" {
+		port = "8080" // Default port if not specified
+	}
+
+	app.Listen(":" + port)
 }
