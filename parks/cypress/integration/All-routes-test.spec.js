@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe("renders the home page and routes",() => {
+describe("Renders the home page and all its routes",() => {
     it("renders homepage correctly", () => {
         cy.visit("/")
         cy.get("#homePageDiv").should("exist")
