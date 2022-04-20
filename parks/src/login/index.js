@@ -3,25 +3,31 @@ import { Form } from "react-bootstrap";
 
 import { LoginContainer, LoginForm, SubmitBtn } from "./styles";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { newUserLogin } from "./ActionCreators";
 
 const Login = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  let location = useLocation();
 
   const { isSuccess, isFetching } = useSelector((state) => state.login);
 
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
   const [userrole, setUserRole] = useState("BUYER");
+  const [history, setHistory] = useState(null);
 
   useEffect(() => {
     if (!isFetching && isSuccess) {
-      navigate("/");
+      navigate(history && history.state.previousLocation);
     }
   }, [isFetching, isSuccess, navigate]);
+
+  useEffect(() => {
+    setHistory(location);
+  }, [location]);
 
   const handleOnEmailChange = (e) => {
     setEmailId(e.target.value);

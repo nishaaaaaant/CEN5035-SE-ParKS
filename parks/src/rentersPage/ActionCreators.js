@@ -73,7 +73,7 @@ export function fetchRentedAddresses() {
   return (dispatch) => {
     dispatch(requestRentedAddresses());
     return axios
-      .post(ALL_ADDRESS_API, data)
+      .post(RENTED_ADDRESSES_API, data)
       .then((response) => {
         console.log(response);
         dispatch(receiveRentedAddresses(response?.data?.data?.data));

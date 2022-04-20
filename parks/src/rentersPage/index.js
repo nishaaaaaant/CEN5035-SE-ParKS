@@ -24,8 +24,7 @@ const RentersPage = () => {
   const {
     isSuccess,
     isError,
-    //  isFetching,
-    addressData,
+    rentedAddressData
   } = useSelector((state) => state.rentersInfo);
 
   const [flag, setFlag] = useState(false);
@@ -72,9 +71,9 @@ const RentersPage = () => {
           <AddIcon>+</AddIcon>
           <AddAddrLabel>Add new Address</AddAddrLabel>
         </NewAddNewAddrContainer>
-        {addressData &&
-          addressData.length &&
-          addressData.map((ele, i) => {
+        {rentedAddressData &&
+          rentedAddressData.length &&
+          rentedAddressData.map((ele, i) => {
             return (
               <AddressListBox
                 key={i}
