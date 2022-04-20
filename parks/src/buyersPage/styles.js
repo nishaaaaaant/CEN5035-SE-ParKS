@@ -21,6 +21,7 @@ export const BuyerListContainer = styled.div`
 export const BuyerMapContainer = styled.div`
   width: 66.66%;
   height: 100%;
+  margin-top: 15px;
 `;
 
 export const MapSidebar = styled.div`

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import { timeslots } from "../constants";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   SlotContainer,
   ButtonContainer,
@@ -11,9 +13,34 @@ import {
 import { Dropdown } from "react-bootstrap";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { getUserDetails } from "../common/utils";
+import { userBookNow } from "./ActionCreator";
 
 const SlotBooking = (props) => {
-  const { handleonCancelClick } = props;
+  const { handleonCancelClick, selectedLocation } = props;
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
+  console.log(selectedLocation);
+
+  const handelOnBookNow = () => {
+    const userData = getUserDetails();
+    const data = {
+      UserId: userData.userId,
+      RenterId: selectedLocation.id,
+      Flag: "pending",
+      NoOfSpace: "2",
+      Rate: 10,
+      StartDate: new Date(),
+      EndDate: new Date(),
+      StartTime: "12",
+      EndTime: "1",
+      Feature: selectedLocation.features,
+    };
+    console.log(data);
+    dispatch(userBookNow(data));
+    navigate("/");
+  };
+  //handle On book now func{data = {}}
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -52,7 +79,7 @@ const SlotBooking = (props) => {
       </SlotContainer>
       <ButtonContainer>
         <CancelButton onClick={handleonCancelClick}>Cancel</CancelButton>
-        <BookNowButton>Book Now</BookNowButton>
+        <BookNowButton onClick={handelOnBookNow}>Book Now</BookNowButton>
       </ButtonContainer>
     </div>
   );

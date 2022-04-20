@@ -20,11 +20,10 @@ func main() {
 	configs.ConnectDB()
 
 	routes.UserRoute(app)
-
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "8080"
+		port = "8080" // Default port if not specified
 	}
 
 	app.Listen(":" + port)
