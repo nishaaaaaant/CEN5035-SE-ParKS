@@ -1,6 +1,6 @@
 import React, { lazy, useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllAddresses } from "./ActionCreators";
+import { fetchRentedAddresses } from "./ActionCreators";
 import RenterForm from "./RenterForm";
 import {
   ListOfAddrContainer,
@@ -35,7 +35,7 @@ const RentersPage = () => {
   let map = useRef(null);
 
   useEffect(() => {
-    dispatch(fetchAllAddresses());
+    dispatch(fetchRentedAddresses());
   }, [dispatch]);
 
   const fetchMapRef = (mapRef) => {
