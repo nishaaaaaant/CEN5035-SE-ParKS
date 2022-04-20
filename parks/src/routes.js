@@ -9,6 +9,7 @@ const Login = lazy(() => import("./login"));
 const RegisterPage = lazy(() => import("./registration"));
 const About = lazy(() => import("./about"));
 const User = lazy(() => import("./user"));
+const UserBooking = lazy(() => import("./userbooking"));
 
 const AppRoutes = () => (
   <Suspense fallback={""}>
@@ -17,6 +18,7 @@ const AppRoutes = () => (
       <Route exact path="/about" element={<About />}></Route>
       <Route exact path="/login" element={<Login />}></Route>
       <Route exact path="/registration" element={<RegisterPage />}></Route>
+      <Route exact path="/userbooking" element={<UserBooking />}></Route>
       <Route
         exact
         path="/buyer"

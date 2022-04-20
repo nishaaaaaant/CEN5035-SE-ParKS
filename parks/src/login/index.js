@@ -83,26 +83,7 @@ const Login = () => {
             />
           </Form.Group>
 
-          <div style={{ display: "flex" }}>
-            <span style={{ marginRight: 10 }}>Login as :</span>
-            <Form.Check
-              inline
-              label="Buyer"
-              name="userrole"
-              type="radio"
-              value="BUYER"
-              onClick={handleOnUserRoleChange}
-              defaultChecked
-            />
-            <Form.Check
-              inline
-              label="Renter"
-              name="userrole"
-              type="radio"
-              value="RENTER"
-              onClick={handleOnUserRoleChange}
-            />
-          </div>
+          <div style={{ display: "flex" }}></div>
           <SubmitBtn
             variant="primary"
             type="submit"
