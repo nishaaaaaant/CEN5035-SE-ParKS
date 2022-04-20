@@ -156,7 +156,7 @@ func GetCartRecord(c *fiber.Ctx) error {
 	)
 }
 
-// GetCompletedBookings
+// Get Completed and Pending Bookings
 func GetCompletedBookings(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var buyerInfo models.BuyerInfo
@@ -175,8 +175,11 @@ func GetCompletedBookings(c *fiber.Ctx) error {
 	// if buyerInfo.RenterId == "" {
 	// 	println(buyerInfo.RenterId)
 	// }
-	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId, "flag": "completed"})
-
+	filter := bson.M{
+		"userid": buyerInfo.UserId,
+		"flag":   bson.M{"$ne": "wishlist"},
+	}
+	results, err := buyerCollection.Find(ctx, filter)
 	println(results)
 
 	if err != nil {

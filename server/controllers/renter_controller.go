@@ -57,8 +57,8 @@ func AddNewAddress(c *fiber.Ctx) error {
 		},
 		Type: property.Type,
 	}
-	result, err := rentersCollection.InsertOne(ctx, newAddress)
-	print(result)
+	_, err := rentersCollection.InsertOne(ctx, newAddress)
+
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
@@ -175,26 +175,26 @@ func EditRenterProperty(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 	update := bson.M{
-		"Id":     property.Id,
-		"UserId": property.UserId,
-		"Features": bson.M{
-			"Type": property.Features.Type,
-			"Properties": bson.M{
-				"Address1":  property.Features.Properties.Address1,
-				"Address2":  property.Features.Properties.Address2,
-				"City":      property.Features.Properties.City,
-				"State":     property.Features.Properties.State,
-				"Zip":       property.Features.Properties.Zip,
-				"Mobile":    property.Features.Properties.Mobile,
-				"Rate":      property.Features.Properties.Rate,
-				"NoOfSpace": property.Features.Properties.NoOfSpace,
+		"id":     property.Id,
+		"userid": property.UserId,
+		"features": bson.M{
+			"type": property.Features.Type,
+			"properties": bson.M{
+				"address1":  property.Features.Properties.Address1,
+				"address2":  property.Features.Properties.Address2,
+				"city":      property.Features.Properties.City,
+				"state":     property.Features.Properties.State,
+				"zip":       property.Features.Properties.Zip,
+				"mobile":    property.Features.Properties.Mobile,
+				"rate":      property.Features.Properties.Rate,
+				"noofspace": property.Features.Properties.NoOfSpace,
 			},
-			"Geometry": bson.M{
-				"Type":        property.Features.Geometry.Type,
-				"Coordinates": property.Features.Geometry.Coordinates,
+			"geometry": bson.M{
+				"type":        property.Features.Geometry.Type,
+				"coordinates": property.Features.Geometry.Coordinates,
 			},
 		},
-		"Type": property.Type,
+		"type": property.Type,
 	}
 	result, err := rentersCollection.UpdateOne(ctx, bson.M{"id": objId}, bson.M{"$set": update})
 	if err != nil {
