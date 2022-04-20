@@ -19,14 +19,4 @@ describe("renders the home page and routes",() => {
         cy.visit("/registration")
         cy.get("#registrationPageDiv").should("exist")
     });
-
-    it("renders renterpage correctly", () => {
-        cy.visit("/renter")
-        cy.get("#renterPageDiv").should("exist")
-    });
-
-    it("renders buyerpage correctly", () =>{
-        cy.visit("/buyer")
-        cy.get("#buyerPageDiv").should("exist")
-    });
 });
