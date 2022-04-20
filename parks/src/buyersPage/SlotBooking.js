@@ -1,6 +1,4 @@
-import React, {useState} from "react";
-// import moment from "moment";
-// import ReactTimeslotCalendar from "react-timeslot-calendar";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { timeslots } from "../constants";
 import {
@@ -10,8 +8,9 @@ import {
   BookNowButton,
   Flex,
 } from "./styles";
-
 import { Dropdown } from "react-bootstrap";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const SlotBooking = (props) => {
   const { handleonCancelClick } = props;
@@ -22,25 +21,16 @@ const SlotBooking = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <SlotContainer id="slots">
-        {/* <ReactTimeslotCalendar
-          initialDate={moment().format("YYYY-MM-DD")}
-          
-          onSelectTimeslot={(timeslots, lastSelected) => {
-            console.log("All Timeslots:");
-            console.log(timeslots);
-
-            console.log("Last selected timeslot:");
-            console.log(lastSelected);
-          }}
-        /> */}
-
+        <label>Continue Booking:</label>
         <Flex>
-          <label>Continue Booking:</label>
           <Flex>
             <label>Select Date:</label>
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
+              minDate={new Date()}
+              maxDate={new Date().setDate(new Date().getDate() + 7)}
+              showDisabledMonthNavigation
               // onCalendarClose={handleCalendarClose}
               // onCalendarOpen={handleCalendarOpen}
             />
