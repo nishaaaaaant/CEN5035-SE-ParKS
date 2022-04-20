@@ -23,5 +23,9 @@ func main() {
 	routes.UserRoute(app)
 	port := os.Getenv("PORT")
 
-	app.Listen(port)
+	if port == "" {
+		port = "8080" // Default port if not specified
+	}
+
+	app.Listen(":" + port)
 }
