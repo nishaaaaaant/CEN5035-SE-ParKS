@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
@@ -19,6 +21,7 @@ func main() {
 	configs.ConnectDB()
 
 	routes.UserRoute(app)
+	port := os.Getenv("PORT")
 
-	app.Listen(":8080")
+	app.Listen(port)
 }
