@@ -5,6 +5,7 @@ export const NEW_ADDRESS_API = "http://127.0.0.1:8080/newaddress";
 export const UPDATE_USER_API = "http://127.0.0.1:8080/user";
 export const ALL_ADDRESS_API = "http://127.0.0.1:8080/alladdresses";
 export const BOOK_NOW_API = "http://127.0.0.1:8080/newbuyer";
+export const RENTED_ADDRESSES_API = "http://127.0.0.1:8080/getrenterlocations";
 
 // Other Constants
 export const MAPBOX_TOKEN =
