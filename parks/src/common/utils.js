@@ -1,5 +1,5 @@
 import { requestUserLogout } from "../login/Actions";
-import { NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import store from "../store";
 
 export const setUserDetails = (isLoggedIn, userId, firstName) => {
@@ -20,5 +20,5 @@ export const logout = () => {
   localStorage.setItem("userId", "");
   localStorage.setItem("firstName", "");
   store.dispatch(requestUserLogout());
-  // <NavLink to="/" />;
+  return <Navigate to="/" />;
 };

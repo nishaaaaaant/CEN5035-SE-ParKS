@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe("renders the home page and routes",() => {
+describe("Renders the home page and all its routes",() => {
     it("renders homepage correctly", () => {
         cy.visit("/")
         cy.get("#homePageDiv").should("exist")
@@ -18,15 +18,5 @@ describe("renders the home page and routes",() => {
     it("renders registerpage correctly", () => {
         cy.visit("/registration")
         cy.get("#registrationPageDiv").should("exist")
-    });
-
-    it("renders renterpage correctly", () => {
-        cy.visit("/renter")
-        cy.get("#renterPageDiv").should("exist")
-    });
-
-    it("renders buyerpage correctly", () =>{
-        cy.visit("/buyer")
-        cy.get("#buyerPageDiv").should("exist")
     });
 });

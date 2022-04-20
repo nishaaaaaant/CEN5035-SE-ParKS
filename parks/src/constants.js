@@ -7,6 +7,7 @@ export const ALL_ADDRESS_API = "http://127.0.0.1:8080/alladdresses";
 export const BOOK_NOW_API = "http://127.0.0.1:8080/newbuyer";
 export const USER_ADDRESS = "http://127.0.0.1:8080/getrenterlocations";
 export const USER_BOOKING = "http://127.0.0.1:8080/getcompletedbookings";
+export const RENTED_ADDRESSES_API = "http://127.0.0.1:8080/getrenterlocations";
 
 // Other Constants
 export const MAPBOX_TOKEN =

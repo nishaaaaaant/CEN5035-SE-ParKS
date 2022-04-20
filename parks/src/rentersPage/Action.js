@@ -45,3 +45,26 @@ export const failureAllAddresses = (payload) => ({
   type: types.FAILURE_ALL_ADDRESSES,
   payload,
 });
+
+/**
+ * @description action for requesting rented addresses by loggedin user
+ */
+export const requestRentedAddresses = () => ({
+  type: types.REQUEST_RENTED_ADDRESSES,
+});
+
+/**
+ * @description Receive action for requesting rented addresses by loggedin user
+ */
+export const receiveRentedAddresses = (payload) => ({
+  type: types.RECEIVE_RENTED_ADDRESSES,
+  payload,
+});
+
+/**
+ * @description Failure action for requesting rented addresses by loggedin user
+ */
+export const failureRentedAddresses = (payload) => ({
+  type: types.FAILURE_RENTED_ADDRESSES,
+  payload,
+});
