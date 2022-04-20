@@ -21,7 +21,11 @@ const Login = () => {
 
   useEffect(() => {
     if (!isFetching && isSuccess) {
-      navigate(history && history.state.previousLocation);
+      navigate(
+        history && history.pathname === "/login"
+          ? "/"
+          : history?.state?.previousLocation
+      );
     }
   }, [isFetching, isSuccess, navigate]);
 

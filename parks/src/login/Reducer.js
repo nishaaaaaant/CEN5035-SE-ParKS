@@ -5,9 +5,11 @@ import {
   FAILURE_USER_UPDATE,
 } from "../user/ActionTypes";
 
+const initStatus = localStorage.getItem("isLoggedIn") === "true" ? true : false;
+
 const defaultState = {
   userData: [],
-  loggedIn: false,
+  loggedIn: initStatus,
   isFetching: false,
   isSuccess: false,
   isError: false,
