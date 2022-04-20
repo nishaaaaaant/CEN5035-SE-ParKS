@@ -23,7 +23,6 @@ export const failureAddNewAddress = (payload) => ({
   payload,
 });
 
-
 /**
  * @description action for requesting all addresses
  */

@@ -35,6 +35,10 @@ const CommonNavBar = () => {
     navigate("/about");
   };
 
+  const handleUserBooking = () => {
+    navigate("/userbooking");
+  };
+
   const handleOnHomeClick = () => navigate("/");
 
   const handelOnBuyersPage = () => navigate("/buyer");
@@ -80,7 +84,9 @@ const CommonNavBar = () => {
                   id="dropdown-split-basic"
                 />
                 <Dropdown.Menu>
-                  <Dropdown.Item>User Booking</Dropdown.Item>
+                  <Dropdown.Item onClick={handleUserBooking}>
+                    User Booking
+                  </Dropdown.Item>
                   <Dropdown.Item onClick={handleOnUpdateUserClick}>
                     Update Profile
                   </Dropdown.Item>
