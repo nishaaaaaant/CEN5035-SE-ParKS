@@ -2,12 +2,11 @@ package main
 
 import (
 	"os"
+	"parks/m/v2/configs"
+	"parks/m/v2/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-
-	"parks/m/v2/configs"
-	"parks/m/v2/routes"
 )
 
 func main() {

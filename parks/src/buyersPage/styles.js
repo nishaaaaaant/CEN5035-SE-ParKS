@@ -42,8 +42,10 @@ export const MapContainer = styled.div`
 `;
 
 export const SlotContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 500px;
+  height: 100%;
   overflow: scroll;
 `;
 
@@ -98,4 +100,8 @@ export const ContinueBtn = styled.button`
 export const RateContainer = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+export const Flex = styled.div`
+  display: flex;
 `;
