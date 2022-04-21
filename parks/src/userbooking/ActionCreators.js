@@ -11,14 +11,13 @@ import { getUserDetails } from "../common/utils";
 export function fetchAllUserBooking() {
   const userId = getUserDetails().userId;
 
-  const data = { userId: userId };
+  const data = { UserId: userId };
   return (dispatch) => {
     dispatch(requestUserBooking());
     return axios
       .post(USER_BOOKING, data)
       .then((response) => {
         console.log(response);
-        debugger
         dispatch(receiveUserBooking(response?.data?.data?.data));
       })
       .catch((e) => {
