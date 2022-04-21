@@ -16,6 +16,9 @@ export const BuyerListContainer = styled.div`
   width: 33.33%;
   height: 100%;
   overflow-y: scroll;
+  flex-direction: column;
+  display: flex;
+  margin: 0 auto;
 `;
 
 export const BuyerMapContainer = styled.div`
@@ -76,7 +79,7 @@ export const BookNowButton = styled.button`
 
 export const AddressListBoxContainer = styled.div`
   width: 100%;
-  height: 150px;
+  // height: 150px;
   display: flex;
   flex-direction: column;
   border: 2px solid #1e43e2e8;
