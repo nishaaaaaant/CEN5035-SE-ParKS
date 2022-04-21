@@ -106,10 +106,10 @@ const RegisterPage = () => {
           >
             Sign Up
           </button>
-          <p className="forgot-password text-right">Already registered</p>
-          <span style={{ color: "red" }} onClick={handleOnLoginPage}>
+          <p className="forgot-password text-right">If already registered as user kindly login</p>
+          <button style={{ color: "red" }} onClick={handleOnLoginPage}>
             Login
-          </span>
+          </button>
         </RegisterForm>
       </RegisterDiv>
     </>

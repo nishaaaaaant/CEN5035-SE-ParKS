@@ -41,12 +41,14 @@ func TestGetAllUsers(t *testing.T) {
 	// http.Response
 	resp, _ := app.Test(req)
 
+	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test failed: Get all registered users")
+
 	if fiber.StatusOK != resp.StatusCode {
 		t.Log("Test failed: Get all registered users")
 		t.Fail()
+	} else {
+		t.Log("Test successful: Get all registered users")
 	}
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test successful: Get all registered users")
-	t.Log("Test successful: Get all registered users")
 }
 
 func TestCreateGetEditDeleteUser(t *testing.T) {
@@ -91,10 +93,6 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	// http.Response
 	resp, _ := app.Test(req)
 
-	if resp.StatusCode != fiber.StatusCreated {
-		t.Log("Test failed: Create User")
-		t.Fail()
-	}
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		t.Log("No response in Body")
@@ -104,9 +102,14 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	userIdValue := string(strings.Split(bodyString, "\"")[13])
 
 	// intVar, err := strconv.Atoi(userIdValue)
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test Successful: Create User")
-	t.Log("Test Successful: Create User")
+	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test failed: Create User")
 
+	if resp.StatusCode != fiber.StatusCreated {
+		t.Log("Test failed: Create User")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Create User")
+	}
 	// // Test for user alreday exist
 	// http.Request
 	req1, error1 := http.NewRequest("POST", "http://localhost:8080/user", nil)
@@ -119,13 +122,14 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	// http.Response
 	resp1, _ := app.Test(req1)
 
+	assert.Equal(t, fiber.StatusForbidden, resp1.StatusCode, "Test failed: User Already Exist so no record creation")
+
 	if resp1.StatusCode != fiber.StatusForbidden {
 		t.Log("Test failed: User Already Exist so no record creation")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: User Already Exist so no record creation")
 	}
-	assert.Equal(t, fiber.StatusForbidden, resp1.StatusCode, "Test Successful: User Already Exist so no record creation")
-	t.Log("Test Successful: User Already Exist so no record creation")
-
 	// // Test for reading a user record
 	app.Get("/user/"+userIdValue, func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -151,14 +155,14 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	// http.Response
 	respGet, _ := app.Test(reqGet)
 
+	assert.Equal(t, fiber.StatusOK, respGet.StatusCode, "Test failed: Get a user record")
+
 	if respGet.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Get a user record")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Get a user record")
 	}
-
-	assert.Equal(t, fiber.StatusOK, respGet.StatusCode, "Test Successful: Get a user record")
-	t.Log("Test Successful: Get a user record")
-
 	// //Test for editing a user record
 	app.Put("/user/"+userIdValue, func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -194,14 +198,14 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	// http.Response
 	respEdit, _ := app.Test(reqEdit)
 
+	assert.Equal(t, fiber.StatusOK, respEdit.StatusCode, "Test failed: Edit user record")
+
 	if respEdit.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Edit user record")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Edit user record")
 	}
-
-	assert.Equal(t, fiber.StatusOK, respEdit.StatusCode, "Test Successful: Edit user record")
-	t.Log("Test Successful: Edit user record")
-
 	// // Test for deleting a user record
 	app.Delete("/user/"+userIdValue, func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -234,14 +238,14 @@ func TestCreateGetEditDeleteUser(t *testing.T) {
 	// http.Response
 	respDel, _ := app.Test(reqDel)
 
+	assert.Equal(t, fiber.StatusOK, respDel.StatusCode, "Test failed: Delete user record")
+
 	if respDel.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Delete user record")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Delete user record")
 	}
-
-	assert.Equal(t, fiber.StatusOK, respDel.StatusCode, "Test Successful: Delete user record")
-	t.Log("Test Successful: Delete user record")
-
 }
 
 func TestFalseUserLogin(t *testing.T) {
@@ -268,13 +272,14 @@ func TestFalseUserLogin(t *testing.T) {
 	// http.Response
 	resp, _ := app.Test(req)
 
+	assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode, "Test failed: Detect False user login")
+
 	if resp.StatusCode != fiber.StatusInternalServerError {
 		t.Log("Test failed: Detect False user login")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Detect False user login")
 	}
-
-	assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode, "Test Successful: Detect False user login")
-	t.Log("Test Successful: Detect False user login")
 }
 
 func TestUserLogin(t *testing.T) {
@@ -301,11 +306,12 @@ func TestUserLogin(t *testing.T) {
 	// http.Response
 	resp, _ := app.Test(req)
 
+	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test failed: User login")
+
 	if resp.StatusCode != fiber.StatusCreated {
 		t.Log("Test failed: User login")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: User login")
 	}
-
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test Successful: User login")
-	t.Log("Test Successful: User login")
 }

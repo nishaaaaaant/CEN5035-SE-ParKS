@@ -74,6 +74,7 @@ func AddNewBuyerRecord(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: &fiber.Map{"data": result}})
 }
 
+// Get all the buyer records for a user
 func GetBuyerRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var buyerInfo models.BuyerInfo
@@ -89,12 +90,8 @@ func GetBuyerRecord(c *fiber.Ctx) error {
 	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
-	// if buyerInfo.RenterId == "" {
-	// 	println(buyerInfo.RenterId)
-	// }
-	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId})
 
-	println(results)
+	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -115,6 +112,7 @@ func GetBuyerRecord(c *fiber.Ctx) error {
 	)
 }
 
+// Get wishlist records
 func GetCartRecord(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var buyerInfo models.BuyerInfo
@@ -130,12 +128,8 @@ func GetCartRecord(c *fiber.Ctx) error {
 	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
-	// if buyerInfo.RenterId == "" {
-	// 	println(buyerInfo.RenterId)
-	// }
-	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId, "flag": "wishlist"})
 
-	println(results)
+	results, err := buyerCollection.Find(ctx, bson.M{"userid": buyerInfo.UserId, "flag": "wishlist"})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -172,15 +166,12 @@ func GetCompletedBookings(c *fiber.Ctx) error {
 	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
-	// if buyerInfo.RenterId == "" {
-	// 	println(buyerInfo.RenterId)
-	// }
+
 	filter := bson.M{
 		"userid": buyerInfo.UserId,
 		"flag":   bson.M{"$ne": "wishlist"},
 	}
 	results, err := buyerCollection.Find(ctx, filter)
-	println(results)
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -217,12 +208,8 @@ func GetBookedSlots(c *fiber.Ctx) error {
 	if validationErr := validate.Struct(&buyerInfo); validationErr != nil {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
-	// if buyerInfo.RenterId == "" {
-	// 	println(buyerInfo.RenterId)
-	// }
-	results, err := buyerCollection.Find(ctx, bson.M{"renterid": buyerInfo.RenterId, "flag": "upcoming", "startdate": buyerInfo.StartDate})
 
-	println(results)
+	results, err := buyerCollection.Find(ctx, bson.M{"renterid": buyerInfo.RenterId, "flag": "pending", "startdate": buyerInfo.StartDate})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})

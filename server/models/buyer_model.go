@@ -1,11 +1,12 @@
 package models
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	// "golang.org/x/text/date"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// Feature Buyer
 type Buyer struct {
 	Id        primitive.ObjectID `json:"id,omitempty"`
 	UserId    string             `json:"userid,omitempty" validate:"required"`
@@ -20,6 +21,7 @@ type Buyer struct {
 	Features  Feature            `json:"features" bson:"features"`
 }
 
+// Feature BuyerInfo
 type BuyerInfo struct {
 	Id        primitive.ObjectID `json:"id,omitempty"`
 	UserId    string             `json:"userid,omitempty"`
