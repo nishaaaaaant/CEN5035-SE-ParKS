@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MyMap from "./MyMap";
+import { fetchTimeSlots } from "./ActionCreator";
 import { fetchAllAddresses } from "../rentersPage/ActionCreators";
 
 // import { InputGroup, FormControl } from "react-bootstrap";
@@ -37,6 +38,11 @@ const BuyersPage = () => {
   }, [dispatch]);
 
   const handleOnContinueClick = () => {
+    const data = {
+      RenterId: selectedLocation.id,
+      StartDate: new Date(),
+    };
+    dispatch(fetchTimeSlots(data));
     setFlag(true);
   };
 
@@ -117,7 +123,10 @@ const BuyersPage = () => {
           </BuyerDetailsContainer>
         </BuyersContainer>
       ) : (
-        <SlotBooking handleonCancelClick={handleonCancelClick} selectedLocation={selectedLocation} />
+        <SlotBooking
+          handleonCancelClick={handleonCancelClick}
+          selectedLocation={selectedLocation}
+        />
       )}
     </div>
   );
