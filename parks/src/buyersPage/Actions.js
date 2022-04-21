@@ -21,3 +21,22 @@ export const receiveUserBookNow = (payload) => ({
 export const failureUserBookNow = () => ({
   type: types.FAILURE_USER_BOOK_NOW,
 });
+export const requestBookedSlots = () => ({
+  type: types.REQUEST_BOOKED_SLOTS,
+});
+
+/**
+ * @description Receive action for adding the new address
+ */
+export const recieveBookedSlots = (payload) => ({
+  type: types.RECEIVE_BOOKED_SLOTS,
+  payload,
+});
+
+/**
+ * @description Failure action for registering new address
+ */
+export const failureBookedSlots = (payload) => ({
+  type: types.FAILURE_BOOKED_SLOTS,
+  payload,
+});

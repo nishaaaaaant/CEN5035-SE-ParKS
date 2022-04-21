@@ -33,6 +33,27 @@ const BookNowReducer = function (state = defaultState, action) {
         isLoggedIn: false,
         isError: true,
       };
+    case actionTypes.REQUEST_BOOKED_SLOTS:
+      return {
+        ...state,
+        isFetching: true,
+        isSuccess: false,
+        isError: false,
+      };
+    case actionTypes.RECEIVE_BOOKED_SLOTS:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: true,
+        rentedAddressData: action.payload,
+      };
+    case actionTypes.FAILURE_BOOKED_SLOTS:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: false,
+        isError: true,
+      };
     default:
       return state;
   }

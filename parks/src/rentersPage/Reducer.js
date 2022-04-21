@@ -22,7 +22,7 @@ const RenterPageReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: true,
-        addressData: [...state.addressData, { ...action.payload }],
+        rentedAddressData: [...state.rentedAddressData, { ...action.payload }],
       };
     case actionTypes.FAILURE_ADD_NEW_ADDRESS:
       return {
@@ -73,6 +73,7 @@ const RenterPageReducer = function (state = defaultState, action) {
         isSuccess: false,
         isError: true,
       };
+
     default:
       return state;
   }
