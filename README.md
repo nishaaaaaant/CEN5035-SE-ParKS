@@ -130,3 +130,8 @@ make backend #this starts the backened.
 4. Integrated DeleteRenterAPI.
 5. Integrated EditRenterPropertyAPI.
 6. Integrated GetBookedSlotsAPI.
+
+## Link of the Hosted website
+
+1. Link : - https://parks-39379.web.app/
+2. Could not host the backend due to technical problem.

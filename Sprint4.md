@@ -46,5 +46,5 @@ ParkS is an application that solves the problem of parking spaces. This applicat
 
 ## Hosted link
 
-Hosted frontend : - [Link](https://parks-39379.web.app/)
-Could not host the backend due to technical problem.
+1. Hosted frontend : - [Link](https://parks-39379.web.app/)
+2. Could not host the backend due to technical problem.
