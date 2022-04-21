@@ -18,6 +18,7 @@ export function fetchAllUserBooking() {
       .post(USER_BOOKING, data)
       .then((response) => {
         console.log(response);
+        debugger
         dispatch(receiveUserBooking(response?.data?.data?.data));
       })
       .catch((e) => {

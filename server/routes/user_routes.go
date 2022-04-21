@@ -25,4 +25,5 @@ func UserRoute(app *fiber.App) {
 	app.Delete("/deleterenter/:renterId", controllers.DeleteRenter)
 	app.Put("/editrenterproperty/:renterId", controllers.EditRenterProperty)
 	app.Post("/getbookedslots", controllers.GetBookedSlots)
+	app.Post("/getsecrectkey", controllers.GetClientSecrect)
 }

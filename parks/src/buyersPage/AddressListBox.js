@@ -23,12 +23,12 @@ const AddressListBox = (props) => {
   return (
     <AddressListBoxContainer onClick={onClick}>
       <div>
-        <AddressLabel>{address1 ? address1 : "Hii"},</AddressLabel>
-        <AddressLabel>{address2 ? address2 : "Hii"},</AddressLabel>
+        <AddressLabel>{address1 ? address1 : ""},</AddressLabel>
+        <AddressLabel>{address2 ? address2 : ""},</AddressLabel>
       </div>
       <div>
-        <AddressLabel>{city ? city : "hii"}, </AddressLabel>
-        <AddressLabel>{state ? state : "hii"}, </AddressLabel>
+        <AddressLabel>{city ? city : ""}, </AddressLabel>
+        <AddressLabel>{state ? state : ""}, </AddressLabel>
       </div>
       <RateContainer>
         {!isCalledFromRenter ? (

@@ -108,7 +108,7 @@ const BuyersPage = () => {
   };
 
   return (
-    <div id="buyerPageDiv">
+    <div id="buyerPageDiv" style={{ height: "100%" }}>
       {!flag && addressData && addressData.length ? (
         <BuyersContainer>
           <BuyerDetailsContainer>
