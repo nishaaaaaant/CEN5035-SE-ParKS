@@ -62,20 +62,23 @@ func TestAddNewAddressAndEditAndDelete(t *testing.T) {
 	// http.Response
 	resp, _ := app.Test(req)
 
-	if resp.StatusCode != fiber.StatusCreated {
-		t.Log("Test failed: Create Renter Property")
-		t.Fail()
-	}
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
-		t.Errorf("No response in Body")
+		t.Log("No response in Body")
+		t.Fail()
 	}
 	bodyString := string(bodyBytes)
 	userIdValue := string(strings.Split(bodyString, "\"")[13])
 
 	// intVar, err := strconv.Atoi(userIdValue)
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test Successful: Create Renter Property")
-	t.Log("Test Successful: Create Renter Property")
+	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test failed: Create Renter Property")
+
+	if resp.StatusCode != fiber.StatusCreated {
+		t.Log("Test failed: Create Renter Property")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Create Renter Property")
+	}
 
 	// // Test Edit Rental Property for a user
 	app.Put("/editrenterproperty/"+userIdValue, func(c *fiber.Ctx) error {
@@ -117,19 +120,20 @@ func TestAddNewAddressAndEditAndDelete(t *testing.T) {
 	reqEdit, errEdit := http.NewRequest("PUT", "http://localhost:8080/editrenterproperty/"+userIdValue, nil)
 	if errEdit != nil {
 		t.Log("Error in test case: Edit Renter Property")
+		t.Fail()
 	}
 
 	// http.Response
 	respEdit, _ := app.Test(reqEdit)
 
+	assert.Equal(t, fiber.StatusOK, respEdit.StatusCode, "Test failed: Edit Renter Property")
+
 	if respEdit.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Edit Renter Property")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Edit Renter Property")
 	}
-
-	assert.Equal(t, fiber.StatusOK, respEdit.StatusCode, "Test Successful: Edit Renter Property")
-	t.Log("Test Successful: Edit Renter Property")
-
 	// // Test Delete Rental Property for a user
 	app.Delete("/deleterenter/"+userIdValue, func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -158,19 +162,20 @@ func TestAddNewAddressAndEditAndDelete(t *testing.T) {
 	reqDel, errDel := http.NewRequest("DELETE", "http://localhost:8080/deleterenter/"+userIdValue, nil)
 	if errDel != nil {
 		t.Log("Error in test case: Delete Renter Property")
+		t.Fail()
 	}
 
 	// http.Response
 	respDel, _ := app.Test(reqDel)
 
+	assert.Equal(t, fiber.StatusOK, respDel.StatusCode, "Test failed: Delete Renter Property")
+
 	if respDel.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Delete Renter Property")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Delete Renter Property")
 	}
-
-	assert.Equal(t, fiber.StatusOK, respDel.StatusCode, "Test Successful: Delete Renter Property")
-	t.Log("Test Successful: Delete Renter Property")
-
 }
 
 func TestGetAllAddresses(t *testing.T) {
@@ -207,18 +212,20 @@ func TestGetAllAddresses(t *testing.T) {
 	req, err := http.NewRequest("GET", "http://localhost:8080/alladdresses", nil)
 	if err != nil {
 		t.Log("Error in test case: Get all Renter Property")
+		t.Fail()
 	}
 
 	// http.Response
 	resp, _ := app.Test(req)
 
+	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test failed: Get all Renter Property")
+
 	if resp.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Get all Renter Property")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Get all Renter Property")
 	}
-
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test Successful: Get all Renter Property")
-	t.Log("Test Successful: Get all Renter Property")
 }
 
 func TestGetRenterLocations(t *testing.T) {
@@ -261,10 +268,13 @@ func TestGetRenterLocations(t *testing.T) {
 
 	// http.Response
 	resp, _ := app.Test(req)
+
+	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test failed: Get Renter Property registered by a user")
+
 	if resp.StatusCode != fiber.StatusOK {
 		t.Log("Test failed: Get Renter Property registered by a user")
 		t.Fail()
+	} else {
+		t.Log("Test Successful: Get Renter Property registered by a user")
 	}
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test Successful: Get Renter Property registered by a user")
-	t.Log("Test Successful: Get Renter Property registered by a user")
 }
