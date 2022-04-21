@@ -3,6 +3,7 @@ import { useState } from "react";
 import { newUserAddNewAddress } from "./ActionCreators";
 import { useDispatch } from "react-redux";
 import { RentersForm, TextInput, SubmitButton, CancelButton } from "./style";
+import {getUserDetails} from '../common/utils'
 
 function RenterForm(props) {
   const { handleOnCancelClick, handleOnSubmitClick, lngLat } = props;
@@ -24,7 +25,7 @@ function RenterForm(props) {
     e.preventDefault();
 
     const formData = {
-      UserId: "62476408bed53e0ef1f17562",
+      UserId: getUserDetails().userId,
       Features: {
         Type: "Point",
         Properties: {
