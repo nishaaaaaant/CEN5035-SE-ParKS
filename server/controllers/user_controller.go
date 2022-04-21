@@ -35,8 +35,6 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	print("Registraion started!!")
-
 	err1 := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&user)
 
 	if err1 != nil {
