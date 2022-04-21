@@ -30,9 +30,12 @@ const ContinueLabel = styled.label`
 
 const SlotBooking = (props) => {
   const { handleonCancelClick, selectedLocation } = props;
+  let navigate = useNavigate();
   let dispatch = useDispatch();
 
   const [flag, setFlag] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [selectedSlot, setSelectedSlot] = useState([]);
 
   const stripe = loadStripe(STRIPE_PUBLIC_KEY);
 
@@ -43,33 +46,41 @@ const SlotBooking = (props) => {
 
   const handelOnBookNow = () => {
     const userData = getUserDetails();
-    // const data = {
-    //   UserId: userData.userId,
-    //   RenterId: selectedLocation.id,
-    //   Flag: "pending",
-    //   NoOfSpace: selectedLocation.features.properties.noofspace,
-    //   Rate: selectedLocation.features.properties.rate,
-    //   StartDate: startDate,
-    //   EndDate: startDate,
-    //   StartTime: "00",
-    //   EndTime: "1",
-    //   Feature: selectedLocation.features,
-    // };
-    // console.log(data);
-    // dispatch(userBookNow(data));
-    // navigate("/");
-    setFlag(true);
-    console.log(selectedLocation);
     const data = {
       UserId: userData.userId,
-      Amount: 10,
+      RenterId: selectedLocation.id,
+      Flag: "pending",
+      NoOfSpace: selectedLocation.features.properties.noofspace,
+      Rate: selectedLocation.features.properties.rate,
+      StartDate: startDate,
+      EndDate: startDate,
+      StartTime: selectedSlot[0],
+      EndTime: selectedSlot[1],
+      Feature: selectedLocation.features,
     };
-    dispatch(getClientSecretKey(data));
+    console.log(data);
+    dispatch(userBookNow(data));
+    navigate("/");
+    // setFlag(true);
+    // console.log(startDate);
+    // console.log(selectedSlot);
+    // console.log(selectedLocation);
+    // const data = {
+    //   UserId: userData.userId,
+    //   Amount: 10,
+    // };
+    // dispatch(getClientSecretKey(data));
   };
   //handle On book now func{data = {}}
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const handleOnDateChange = (date) => {
+    console.log(date);
+    setStartDate(date);
+  };
+
+  const handleOnSlotsChange = (e) => {
+    setSelectedSlot(e);
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -86,19 +97,17 @@ const SlotBooking = (props) => {
                 <label>Select Date:</label>
                 <DatePicker
                   selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(e) => handleOnDateChange(e)}
                   minDate={new Date()}
                   maxDate={new Date().setDate(new Date().getDate() + 7)}
                   showDisabledMonthNavigation
-                  // onCalendarClose={handleCalendarClose}
-                  // onCalendarOpen={handleCalendarOpen}
                 />
               </Flex>
               <Flex
                 style={{ justifyContent: "space-around", alignItems: "center" }}
               >
                 <label>Select Slot:</label>
-                <Dropdown>
+                <Dropdown onSelect={handleOnSlotsChange}>
                   <Dropdown.Toggle id="slots-list">
                     Select Slots
                   </Dropdown.Toggle>
@@ -108,6 +117,7 @@ const SlotBooking = (props) => {
                     {timeslots.map((ele, i) => (
                       <Dropdown.Item
                         key={i}
+                        eventKey={ele}
                       >{`${ele[0]} - ${ele[1]}`}</Dropdown.Item>
                     ))}
                   </Dropdown.Menu>

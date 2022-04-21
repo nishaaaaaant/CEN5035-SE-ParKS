@@ -31,6 +31,7 @@ export function newUserAddNewAddress(data) {
     return axios
       .post(NEW_ADDRESS_API, data)
       .then((response) => {
+        debugger
         console.log(response);
         alert("Successfully Added the location");
         dispatch(receiveAddNewAddress(response?.data?.data?.data));
@@ -76,6 +77,7 @@ export function fetchRentedAddresses() {
       .post(RENTED_ADDRESSES_API, data)
       .then((response) => {
         console.log(response);
+        debugger
         dispatch(receiveRentedAddresses(response?.data?.data?.data));
       })
       .catch((e) => {
