@@ -57,8 +57,8 @@ func AddNewAddress(c *fiber.Ctx) error {
 		},
 		Type: property.Type,
 	}
-	result, err := rentersCollection.InsertOne(ctx, newAddress)
-	print(result)
+	_, err := rentersCollection.InsertOne(ctx, newAddress)
+
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
@@ -98,7 +98,6 @@ func GetAllAddresses(c *fiber.Ctx) error {
 func GetRenterLocations(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var location models.Location
-	// var feature models.Feature
 	var renterInfo []models.Property
 	defer cancel()
 
@@ -175,26 +174,26 @@ func EditRenterProperty(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 	update := bson.M{
-		"Id":     property.Id,
-		"UserId": property.UserId,
-		"Features": bson.M{
-			"Type": property.Features.Type,
-			"Properties": bson.M{
-				"Address1":  property.Features.Properties.Address1,
-				"Address2":  property.Features.Properties.Address2,
-				"City":      property.Features.Properties.City,
-				"State":     property.Features.Properties.State,
-				"Zip":       property.Features.Properties.Zip,
-				"Mobile":    property.Features.Properties.Mobile,
-				"Rate":      property.Features.Properties.Rate,
-				"NoOfSpace": property.Features.Properties.NoOfSpace,
+		"id":     property.Id,
+		"userid": property.UserId,
+		"features": bson.M{
+			"type": property.Features.Type,
+			"properties": bson.M{
+				"address1":  property.Features.Properties.Address1,
+				"address2":  property.Features.Properties.Address2,
+				"city":      property.Features.Properties.City,
+				"state":     property.Features.Properties.State,
+				"zip":       property.Features.Properties.Zip,
+				"mobile":    property.Features.Properties.Mobile,
+				"rate":      property.Features.Properties.Rate,
+				"noofspace": property.Features.Properties.NoOfSpace,
 			},
-			"Geometry": bson.M{
-				"Type":        property.Features.Geometry.Type,
-				"Coordinates": property.Features.Geometry.Coordinates,
+			"geometry": bson.M{
+				"type":        property.Features.Geometry.Type,
+				"coordinates": property.Features.Geometry.Coordinates,
 			},
 		},
-		"Type": property.Type,
+		"type": property.Type,
 	}
 	result, err := rentersCollection.UpdateOne(ctx, bson.M{"id": objId}, bson.M{"$set": update})
 	if err != nil {
@@ -202,36 +201,24 @@ func EditRenterProperty(c *fiber.Ctx) error {
 	}
 	//get updated rental property details
 	var updatedRenter models.Property
+	// println(result.MatchedCount)
 	if result.MatchedCount == 1 {
-		err := rentersCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedRenter)
-		if err != nil {
+		err1 := rentersCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedRenter)
+		if err1 != nil {
 			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 		}
 	}
 	return c.Status(http.StatusOK).JSON(responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": updatedRenter}})
 }
 
-// HOLD
 func GetAllCoordinates(c *fiber.Ctx) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	// var location models.Location
+
 	var renterInfo []models.Geometry
 	defer cancel()
 
-	// //validate the request body
-	// if err := c.BodyParser(&location); err != nil {
-	// 	return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
-	// }
-
-	// // use the validator library to validate required fields
-	// if validationErr := validate.Struct(&location); validationErr != nil {
-	// 	return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
-	// }
-	// opts := options.Find().SetProjection(bson.M{"longitude": 1, "latitude": 1})
-	// results, err := rentersCollection.Find(ctx, bson.M{}, opts)
 	results, err := rentersCollection.Find(ctx, bson.M{})
-	// results, err := rentersCollection.Find(ctx, bson.M{})
 
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
@@ -244,7 +231,6 @@ func GetAllCoordinates(c *fiber.Ctx) error {
 		if err = results.Decode(&renterRecord); err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 		}
-		println(results.Decode(&renterRecord))
 		renterInfo = append(renterInfo, renterRecord)
 	}
 
@@ -253,7 +239,6 @@ func GetAllCoordinates(c *fiber.Ctx) error {
 	)
 }
 
-// HOLD
 func GetSpecificLocation(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var location models.Location
@@ -270,7 +255,6 @@ func GetSpecificLocation(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	println(location.Latitude, location.Longitude)
 	results, err := rentersCollection.Find(ctx, bson.M{"latitude": location.Latitude, "longitude": location.Longitude})
 
 	if err != nil {

@@ -6,9 +6,14 @@ import {
   requestClientSecret,
   receiveClientSecret,
   failureClientSecret,
+  requestBookedSlots,
+  recieveBookedSlots,
+  failureBookedSlots,
 } from "./Actions";
 
 import { BOOK_NOW_API, CLIENT_SECRECT } from "../constants";
+import { BOOKED_SLOTS } from "../constants";
+import { getUserDetails } from "../common/utils";
 
 /**
  * @description Fetch Home page data
@@ -19,6 +24,7 @@ export function userBookNow(data) {
     "Access-Control-Allow-Origin": "*",
   };
   return (dispatch) => {
+    <div className="0"></div>;
     dispatch(requestUserBookNow());
     // const url = `${BOOK_NOW_API`
     return axios
@@ -54,6 +60,22 @@ export function getClientSecretKey(data) {
       })
       .catch((e) => {
         dispatch(failureClientSecret());
+      });
+  };
+}
+
+export function fetchTimeSlots(data) {
+  return (dispatch) => {
+    dispatch(requestBookedSlots());
+    return axios
+      .post(BOOKED_SLOTS, data)
+      .then((response) => {
+        console.log(response);
+        dispatch(recieveBookedSlots(response?.data?.data?.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(failureBookedSlots(e.response.status === 403));
       });
   };
 }

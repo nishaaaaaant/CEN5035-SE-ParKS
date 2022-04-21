@@ -19,7 +19,6 @@ import (
 
 func TestGetAllUsers(t *testing.T) {
 	app := fiber.New()
-
 	app.Get("/users", func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -34,20 +33,25 @@ func TestGetAllUsers(t *testing.T) {
 
 	// http.Request
 	req, error := http.NewRequest("GET", "http://localhost:8080/users", nil)
-	if error == nil {
-		print("Error aa gaya")
+	if error != nil {
+		t.Log("Error in test case: Get all registered users")
+		t.Fail()
 	}
 
 	// http.Response
 	resp, _ := app.Test(req)
 
+	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "Test failed: Get all registered users")
+
 	if fiber.StatusOK != resp.StatusCode {
-		t.Errorf("GetAllUsers Test failed")
+		t.Log("Test failed: Get all registered users")
+		t.Fail()
+	} else {
+		t.Log("Test successful: Get all registered users")
 	}
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode)
 }
 
-func TestCreateGetandDeleteUser(t *testing.T) {
+func TestCreateGetEditDeleteUser(t *testing.T) {
 	app := fiber.New()
 	app.Post("/user", func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -78,65 +82,170 @@ func TestCreateGetandDeleteUser(t *testing.T) {
 
 	})
 
-	// User registration test
+	// // User registration test
 	// http.Request
-	req, error := http.NewRequest("POST", "http://localhost:8080/user", nil)
-	if error != nil {
-		print("Error in test case: User registration")
+	req, err := http.NewRequest("POST", "http://localhost:8080/user", nil)
+	if err != nil {
+		t.Log("Error in test case: Create User")
+		t.Fail()
 	}
 
 	// http.Response
 	resp, _ := app.Test(req)
 
-	if resp.StatusCode != fiber.StatusCreated {
-		t.Errorf("Test failed: Create User")
-	}
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
-		t.Errorf("No response in Body")
+		t.Log("No response in Body")
+		t.Fail()
 	}
 	bodyString := string(bodyBytes)
 	userIdValue := string(strings.Split(bodyString, "\"")[13])
 
 	// intVar, err := strconv.Atoi(userIdValue)
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode, "User Registered Successfully")
+	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test failed: Create User")
 
-	// Test for user alreday exist
+	if resp.StatusCode != fiber.StatusCreated {
+		t.Log("Test failed: Create User")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Create User")
+	}
+	// // Test for user alreday exist
 	// http.Request
-	req1, error1 := http.NewRequest("POST", "http://localhost:8080/user/"+userIdValue, nil)
+	req1, error1 := http.NewRequest("POST", "http://localhost:8080/user", nil)
 
 	if error1 != nil {
-		print("Error in test case: User Already exist")
+		t.Log("Error in test case: User Already Exist so no record creation")
+		t.Fail()
 	}
 
 	// http.Response
 	resp1, _ := app.Test(req1)
 
+	assert.Equal(t, fiber.StatusForbidden, resp1.StatusCode, "Test failed: User Already Exist so no record creation")
+
 	if resp1.StatusCode != fiber.StatusForbidden {
-		t.Errorf("Test failed - User Already exist")
+		t.Log("Test failed: User Already Exist so no record creation")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: User Already Exist so no record creation")
+	}
+	// // Test for reading a user record
+	app.Get("/user/"+userIdValue, func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var user models.User
+		defer cancel()
+
+		err := userCollection.FindOne(ctx, bson.M{"email": "suraj@abc.com"}).Decode(&user)
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+
+		return c.Status(http.StatusOK).JSON(responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": user}})
+	})
+
+	// http.Request
+	reqGet, errorGet := http.NewRequest("GET", "http://localhost:8080/user/"+userIdValue, nil)
+
+	if errorGet != nil {
+		t.Log("Error in test case: Get a user record")
+		t.Fail()
 	}
 
-	assert.Equal(t, fiber.StatusForbidden, resp.StatusCode, "Test Successful - User Already Exist")
+	// http.Response
+	respGet, _ := app.Test(reqGet)
 
+	assert.Equal(t, fiber.StatusOK, respGet.StatusCode, "Test failed: Get a user record")
+
+	if respGet.StatusCode != fiber.StatusOK {
+		t.Log("Test failed: Get a user record")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Get a user record")
+	}
+	// //Test for editing a user record
+	app.Put("/user/"+userIdValue, func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		// var user models.User
+		defer cancel()
+
+		update := bson.M{"Firstname": "Sraj"}
+
+		result, err := userCollection.UpdateOne(ctx, bson.M{"email": "suraj@abc.com"}, bson.M{"$set": update})
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
+
+		//get updated user details
+		var updatedUser models.User
+		if result.MatchedCount == 1 {
+			err := userCollection.FindOne(ctx, bson.M{"email": "suraj@abc.com"}).Decode(&updatedUser)
+			if err != nil {
+				return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+			}
+		}
+		return c.Status(http.StatusOK).JSON(responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": updatedUser}})
+
+	})
+	// http.Request
+	reqEdit, errorEdit := http.NewRequest("PUT", "http://localhost:8080/user/"+userIdValue, nil)
+
+	if errorEdit != nil {
+		t.Log("Error in test case: Edit user record")
+		t.Fail()
+	}
+
+	// http.Response
+	respEdit, _ := app.Test(reqEdit)
+
+	assert.Equal(t, fiber.StatusOK, respEdit.StatusCode, "Test failed: Edit user record")
+
+	if respEdit.StatusCode != fiber.StatusOK {
+		t.Log("Test failed: Edit user record")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Edit user record")
+	}
 	// // Test for deleting a user record
+	app.Delete("/user/"+userIdValue, func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		// var user models.User
+		defer cancel()
 
-	// app.Post("/user/:", func(c *fiber.Ctx) error {
-	// // http.Request
-	// req2, error2 := http.NewRequest("POST", "http://localhost:8080/user", nil)
+		result, err := userCollection.DeleteOne(ctx, bson.M{"email": "suraj@abc.com"})
+		if err != nil {
+			return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		}
 
-	// if error2 != nil {
-	// 	print("Error in test case: Delete user")
-	// }
+		if result.DeletedCount < 1 {
+			return c.Status(http.StatusNotFound).JSON(
+				responses.UserResponse{Status: http.StatusNotFound, Message: "error", Data: &fiber.Map{"data": "User with specified ID not found!"}},
+			)
+		}
 
-	// // http.Response
-	// resp2, _ := app.Test(req2)
+		return c.Status(http.StatusOK).JSON(
+			responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": "User successfully deleted!"}},
+		)
+	})
+	// http.Request
+	reqDel, errorDel := http.NewRequest("DELETE", "http://localhost:8080/user/"+userIdValue, nil)
 
-	// if resp2.StatusCode != fiber.StatusForbidden {
-	// 	t.Errorf("Test failed - Delete user")
-	// }
+	if errorDel != nil {
+		t.Log("Error in test case: Delete user record")
+		t.Fail()
+	}
 
-	// assert.Equal(t, fiber.StatusForbidden, resp.StatusCode, "Test Successful - Delete User")
+	// http.Response
+	respDel, _ := app.Test(reqDel)
 
+	assert.Equal(t, fiber.StatusOK, respDel.StatusCode, "Test failed: Delete user record")
+
+	if respDel.StatusCode != fiber.StatusOK {
+		t.Log("Test failed: Delete user record")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Delete user record")
+	}
 }
 
 func TestFalseUserLogin(t *testing.T) {
@@ -156,17 +265,21 @@ func TestFalseUserLogin(t *testing.T) {
 	// http.Request
 	req, error := http.NewRequest("POST", "http://localhost:8080/login", nil)
 	if error != nil {
-		print("Error in test case")
+		t.Log("Error in test case: Detect False user login")
+		t.Fail()
 	}
 
 	// http.Response
 	resp, _ := app.Test(req)
 
-	if resp.StatusCode != fiber.StatusInternalServerError {
-		t.Errorf("FalseUserLogin Test failed")
-	}
+	assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode, "Test failed: Detect False user login")
 
-	assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode)
+	if resp.StatusCode != fiber.StatusInternalServerError {
+		t.Log("Test failed: Detect False user login")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: Detect False user login")
+	}
 }
 
 func TestUserLogin(t *testing.T) {
@@ -186,15 +299,19 @@ func TestUserLogin(t *testing.T) {
 	// http.Request
 	req, error := http.NewRequest("POST", "http://localhost:8080/login", nil)
 	if error != nil {
-		print("Error in test case")
+		t.Log("Error in test case: User login")
+		t.Fail()
 	}
 
 	// http.Response
 	resp, _ := app.Test(req)
 
-	if resp.StatusCode != fiber.StatusCreated {
-		t.Errorf("UserLogin Test failed")
-	}
+	assert.Equal(t, fiber.StatusCreated, resp.StatusCode, "Test failed: User login")
 
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode)
+	if resp.StatusCode != fiber.StatusCreated {
+		t.Log("Test failed: User login")
+		t.Fail()
+	} else {
+		t.Log("Test Successful: User login")
+	}
 }

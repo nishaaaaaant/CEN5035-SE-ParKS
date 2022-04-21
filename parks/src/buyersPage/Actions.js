@@ -34,6 +34,18 @@ export const requestClientSecret = () => ({
  */
 export const receiveClientSecret = (payload) => ({
   type: types.RECEIVE_CLIENT_SECRET,
+  payload: payload,
+});
+
+export const requestBookedSlots = () => ({
+  type: types.REQUEST_BOOKED_SLOTS,
+});
+
+/**
+ * @description Receive action for adding the new address
+ */
+export const recieveBookedSlots = (payload) => ({
+  type: types.RECEIVE_BOOKED_SLOTS,
   payload,
 });
 
@@ -42,4 +54,12 @@ export const receiveClientSecret = (payload) => ({
  */
 export const failureClientSecret = () => ({
   type: types.FAILURE_CLIENT_SECRET,
+});
+
+/**
+ * @description Failure action for registering new address
+ */
+export const failureBookedSlots = (payload) => ({
+  type: types.FAILURE_BOOKED_SLOTS,
+  payload,
 });

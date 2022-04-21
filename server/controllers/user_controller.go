@@ -35,8 +35,6 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	print("Registraion started!!")
-
 	err1 := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&user)
 
 	if err1 != nil {
@@ -98,7 +96,7 @@ func EditAUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": validationErr.Error()}})
 	}
 
-	update := bson.M{"Id": user.Id, "Firstname": user.FirstName, "Lastname": user.LastName, "Email": user.Email, "Password": user.Password, "UserRole": user.UserRole}
+	update := bson.M{"firstname": user.FirstName, "lastname": user.LastName, "password": user.Password, "userrole": user.UserRole}
 
 	result, err := userCollection.UpdateOne(ctx, bson.M{"id": objId}, bson.M{"$set": update})
 	if err != nil {

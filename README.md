@@ -26,6 +26,14 @@ Group project for Software-Engineering course (CEN5035)
 - Location based listing of parking spaces.
 - Availability of slots for the next 7 days.
 
+## How to Run
+
+Run the makefile after you clone the repsository.
+```
+make start #this start the frontend.
+make backend #this starts the backened.
+```
+
 ## Tech Stack
 
 - React + Redux (For FrontEnd)

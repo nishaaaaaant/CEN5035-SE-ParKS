@@ -121,7 +121,9 @@ const SlotBooking = (props) => {
           </SlotContainer>
         </div>
       ) : (
-        <CheckoutForm />
+        <Elements stripe={stripe} options={options}>
+          <CheckoutForm />
+        </Elements>
       )}
     </div>
   );
