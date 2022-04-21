@@ -10,6 +10,8 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/paymentintent"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"gopkg.in/mgo.v2/bson"
@@ -20,6 +22,15 @@ var buyerCollection *mongo.Collection = configs.GetCollection(configs.DB, "buyer
 var renterCollection *mongo.Collection = configs.GetCollection(configs.DB, "renters")
 var buyerValidate = validator.New()
 var renterValidate = validator.New()
+
+type CheckoutData struct {
+	Amount int64  `json:"amount"`
+	UserId string `json:"userId"`
+}
+
+type SecrectKey struct {
+	ClientSecret string `json:"clientSecret"`
+}
 
 // Add a new buyer entry for Wishlist/upcoming entry
 func AddNewBuyerRecord(c *fiber.Ctx) error {
@@ -238,4 +249,46 @@ func GetBookedSlots(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(
 		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": buyers}},
 	)
+}
+
+func GetClientSecrect(c *fiber.Ctx) error {
+
+	stripe.Key = "sk_test_51KqmFaALS0uBSxDsfqTE2Zu0EofEqSXbwbpYcYkcxqWDazYPMZAtmsdh5LpBAO1j54t3MZO9nha54vVtXPgh86A900OA4tfyhs"
+
+	_, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	var checkoutData CheckoutData
+	defer cancel()
+
+	//validate the request body
+	if err := c.BodyParser(&checkoutData); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	params := &stripe.PaymentIntentParams{
+		Amount:   stripe.Int64(1099),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		PaymentMethodTypes: stripe.StringSlice([]string{
+			"card",
+		}),
+	}
+
+	results, err := paymentintent.New(params)
+
+	// println(results)
+
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+	}
+
+	data := SecrectKey{
+		ClientSecret: results.ClientSecret,
+	}
+
+	//reading from the db in an optimal way
+	// defer results.Close(ctx)
+
+	return c.Status(http.StatusOK).JSON(
+		responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &fiber.Map{"data": data}},
+	)
+
 }

@@ -102,7 +102,7 @@ const BuyersPage = () => {
   };
 
   return (
-    <div id="buyerPageDiv">
+    <div id="buyerPageDiv" style={{ height: "100%" }}>
       {!flag && addressData && addressData.length ? (
         <BuyersContainer>
           <BuyerDetailsContainer>
@@ -117,7 +117,10 @@ const BuyersPage = () => {
           </BuyerDetailsContainer>
         </BuyersContainer>
       ) : (
-        <SlotBooking handleonCancelClick={handleonCancelClick} selectedLocation={selectedLocation} />
+        <SlotBooking
+          handleonCancelClick={handleonCancelClick}
+          selectedLocation={selectedLocation}
+        />
       )}
     </div>
   );

@@ -6,6 +6,7 @@ export const UPDATE_USER_API = "http://127.0.0.1:8080/user";
 export const ALL_ADDRESS_API = "http://127.0.0.1:8080/alladdresses";
 export const BOOK_NOW_API = "http://127.0.0.1:8080/newbuyer";
 export const RENTED_ADDRESSES_API = "http://127.0.0.1:8080/getrenterlocations";
+export const CLIENT_SECRET_API = "http://127.0.0.1:8080/getsecrectkey";
 
 // Other Constants
 export const MAPBOX_TOKEN =
@@ -37,3 +38,12 @@ export const timeslots = [
   ["22", "23"],
   ["23", "24"],
 ];
+
+export const STRIPE_PUBLIC_KEY =
+  "pk_test_51KqmFaALS0uBSxDsKxkudAZhYaZgcMuAnJmYE9A5G3bxFw4hJap3H13a6QkkveNKA9JKYpL0z7XEcYNQJW3nf7dO00ASsMTZ64";
+
+export const STRIPE_SECRET_KEY =
+  "sk_test_51KqmFaALS0uBSxDsfqTE2Zu0EofEqSXbwbpYcYkcxqWDazYPMZAtmsdh5LpBAO1j54t3MZO9nha54vVtXPgh86A900OA4tfyhs";
+
+export const CLIENT_SECRECT =
+  "pi_3Kqn8GALS0uBSxDs2Rrt7WIc_secret_CZQSYmUepbUVky8nMnro3O1ij";

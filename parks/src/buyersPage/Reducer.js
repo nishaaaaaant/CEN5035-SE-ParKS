@@ -2,7 +2,7 @@ import * as actionTypes from "./ActionTypes";
 
 const defaultState = {
   userData: [],
-  isLoggedIn: false,
+  clientSecretKey: "",
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -22,7 +22,6 @@ const BookNowReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: true,
-        isLoggedIn: true,
         userData: action.payload,
       };
     case actionTypes.FAILURE_USER_BOOK_NOW:
@@ -30,7 +29,27 @@ const BookNowReducer = function (state = defaultState, action) {
         ...state,
         isFetching: false,
         isSuccess: false,
-        isLoggedIn: false,
+        isError: true,
+      };
+    case actionTypes.REQUEST_CLIENT_SECRET:
+      return {
+        ...state,
+        isFetching: true,
+        isSuccess: false,
+        isError: false,
+      };
+    case actionTypes.RECEIVE_CLIENT_SECRET:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: true,
+        clientSecretKey: action.payload,
+      };
+    case actionTypes.FAILURE_CLIENT_SECRET:
+      return {
+        ...state,
+        isFetching: false,
+        isSuccess: false,
         isError: true,
       };
     default:
